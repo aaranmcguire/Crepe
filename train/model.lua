@@ -3,9 +3,6 @@ Model Program for Crepe
 By Xiang Zhang @ New York University
 --]]
 
--- Prerequisite
---require("nn")
-
 -- The class
 local Model = torch.class("Model")
 
