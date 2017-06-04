@@ -176,14 +176,23 @@ function main.save()
 
    -- Make the save
    local time = os.time()
-   torch.save(paths.concat(config.main.save,"main_"..(main.train.epoch-1).."_"..time..".t7b"),
-	      {config = config, record = main.record, momentum = main.train.old_grads:double()})
-   torch.save(paths.concat(config.main.save,"sequential_"..(main.train.epoch-1).."_"..time..".t7b"),
-	      main.model:clearSequential(main.model:makeCleanSequential(main.model.sequential)))
+   torch.save(
+      paths.concat(config.main.save,"main_"..(main.train.epoch-1).."_"..time..".t7b"),
+      {
+         config = config,
+	 record = main.record,
+	 momentum = main.train.old_grads:double()
+      }
+   )
+	      
+   torch.save(
+      paths.concat(config.main.save,"sequential_"..(main.train.epoch-1).."_"..time..".t7b"),
+      main.model:clearSequential(main.model:makeCleanSequential(main.model.sequential))
+   )
+   
    main.eps_error = main.eps_error or gnuplot.epsfigure(paths.concat(config.main.save,"figure_error.eps"))
    main.eps_loss = main.eps_loss or gnuplot.epsfigure(paths.concat(config.main.save,"figure_loss.eps"))
-   local ret = pcall(function() main.mui.win:save(paths.concat(config.main.save,"sequential_"..(main.train.epoch-1).."_"..time..".png")) end)
-   if not ret then print("Warning: saving the model image failed") end
+   
    collectgarbage()
 end
 
