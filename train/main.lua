@@ -27,10 +27,10 @@ main = {}
 -- The main program
 function main.main()
    -- Setting the device
-   --if config.main.device then
-   --   cutorch.setDevice(config.main.device)
-   --   print("Device set to "..config.main.device)
-   --end
+   if config.main.device then
+      cutorch.setDevice(config.main.device)
+      print("Device set to "..config.main.device)
+   end
 
    main.clock = {}
    main.clock.log = 0
