@@ -98,7 +98,8 @@ function main.new()
    print("Current model type: "..main.model:type())
    collectgarbage()
    
-   print("Model: "..main.model)
+   print("Model: ")
+   print(main.model)
 
    -- Initiate the trainer
    print("Loading the trainer...")
