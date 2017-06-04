@@ -99,7 +99,7 @@ function main.new()
    collectgarbage()
    
    print("Model: ")
-   print(main.model)
+   print(main.model.sequential)
 
    -- Initiate the trainer
    print("Loading the trainer...")
