@@ -181,7 +181,7 @@ function main.save()
 	      
    torch.save(
       paths.concat(config.main.save,"sequential_"..(main.train.epoch-1).."_"..time..".t7b"),
-      main.model:clearSequential(main.model:makeCleanSequential(main.model.sequential))
+      main.model:clearSequential(main.model:createSequential(config.model))
    )
    
    collectgarbage()
