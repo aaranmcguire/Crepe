@@ -198,7 +198,7 @@ end
 
 -- Create a new Spatial Convolution model
 function Model:createTemporalConvolution(m)
-   return nn:TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   return nn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
 end
 
 -- Create a new spatial max pooling model
@@ -213,7 +213,7 @@ end
 
 -- Create new logsoftmax module
 function Model:createLogSoftMax(m)
-   return nn:LogSoftMax()
+   return nn.LogSoftMax()
 end
 
 -- Create a new threshold
