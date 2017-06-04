@@ -13,7 +13,7 @@ function Model:__init(config)
    -- Inject best backend.
    if pcall(function() require('cudnn') end) then
       print "Using cudnn."
-      local usecudnn = true
+      usecudnn = true
    else
       if pcall(function() require('cunn') end) then
       	print "Using cunn."
@@ -29,7 +29,7 @@ function Model:__init(config)
       self.sequential = Model:createSequential(config)
    end
    
-   if usecudnn then
+   if usecudnn == true then
       cudnn.convert(self.sequential, cudnn)
       print(self.sequential)
    end
