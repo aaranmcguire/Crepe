@@ -13,14 +13,13 @@ function Model:__init(config)
    -- Inject best backend.
    if pcall(function() require('cudnn') end) then
       print "Using cudnn."
-      self.backend = cudnn
+      local usecudnn = true
    else
       if pcall(function() require('cunn') end) then
       	print "Using cunn."
       else
       	print "Using nn."
       end
-      self.backend = nn
    end
 
    -- Create a sequential for self
@@ -29,6 +28,12 @@ function Model:__init(config)
    else
       self.sequential = Model:createSequential(config)
    end
+   
+   if usecudnn then
+      cudnn.convert(self.sequential, cudnn)
+      print(self.sequential)
+   end
+   
    self.p = config.p or 0.5
    self.tensortype = torch.getdefaulttensortype()
 end
@@ -193,7 +198,7 @@ end
 
 -- Create a new Spatial Convolution model
 function Model:createTemporalConvolution(m)
-   return self.backend:TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   return nn:TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
 end
 
 -- Create a new spatial max pooling model
@@ -208,7 +213,7 @@ end
 
 -- Create new logsoftmax module
 function Model:createLogSoftMax(m)
-   return self.backend:LogSoftMax()
+   return nn:LogSoftMax()
 end
 
 -- Create a new threshold
@@ -246,7 +251,7 @@ end
 
 -- Convert a convolution module to standard
 function Model:toTemporalConvolution(m)
-   local new = self.backend.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   local new = nn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
    new.weight:copy(m.weight)
    new.bias:copy(m.bias)
    return new
