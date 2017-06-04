@@ -4,12 +4,20 @@ By Xiang Zhang @ New York University
 --]]
 
 -- Prerequisite
-require("nn")
+--require("nn")
 
 -- The class
 local Model = torch.class("Model")
 
 function Model:__init(config)
+   -- Inject best backend.
+   if pcall(function() require('cudnn') end) then
+      self.backend = cudnn
+   else
+      pcall(function() require('cunn') end)
+      self.backend = nn
+   end
+
    -- Create a sequential for self
    if config.file then
       self.sequential = Model:makeCleanSequential(torch.load(config.file))
@@ -180,7 +188,7 @@ end
 
 -- Create a new Spatial Convolution model
 function Model:createTemporalConvolution(m)
-   return nn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   return self.backend.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
 end
 
 -- Create a new spatial max pooling model
@@ -195,7 +203,7 @@ end
 
 -- Create new logsoftmax module
 function Model:createLogSoftMax(m)
-   return nn.LogSoftMax()
+   return self.backend.LogSoftMax()
 end
 
 -- Create a new threshold
@@ -233,7 +241,7 @@ end
 
 -- Convert a convolution module to standard
 function Model:toTemporalConvolution(m)
-   local new = nn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   local new = self.backend.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
    new.weight:copy(m.weight)
    new.bias:copy(m.bias)
    return new
