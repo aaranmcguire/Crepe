@@ -163,12 +163,6 @@ function main.run()
    end
 end
 
--- Final cleaning up
-function main.clean()
-   print("Cleaning up...")
-   gnuplot.closeall()
-end
-
 -- Save a record
 function main.save()
    -- Record necessary configurations
@@ -189,9 +183,6 @@ function main.save()
       paths.concat(config.main.save,"sequential_"..(main.train.epoch-1).."_"..time..".t7b"),
       main.model:clearSequential(main.model:makeCleanSequential(main.model.sequential))
    )
-   
-   main.eps_error = main.eps_error or gnuplot.epsfigure(paths.concat(config.main.save,"figure_error.eps"))
-   main.eps_loss = main.eps_loss or gnuplot.epsfigure(paths.concat(config.main.save,"figure_loss.eps"))
    
    collectgarbage()
 end
