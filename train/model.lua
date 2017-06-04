@@ -71,7 +71,6 @@ end
 -- Switch to a different data mode
 function Model:type(tensortype)
    if tensortype ~= nil then
-      self.sequential = self:makeCleanSequential(self.sequential)
       self.sequential:type(tensortype)
       self.tensortype = tensortype
    end
