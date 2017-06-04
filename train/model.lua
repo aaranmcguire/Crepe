@@ -155,7 +155,7 @@ end
 
 -- Make a clean module
 function Model:makeCleanModule(m)
-   if torch.typename(m) == "nn.TemporalConvolution" then
+   if torch.typename(m) == "nn.TemporalConvolution" or torch.typename(m) == "cudnn.TemporalConvolution" then
 	 return Model:toTemporalConvolution(m)
    elseif torch.typename(m) == "nn.Threshold" then
       return Model:newThreshold()
@@ -165,12 +165,12 @@ function Model:makeCleanModule(m)
       return Model:toReshape(m)
    elseif torch.typename(m) == "nn.Linear" then
       return Model:toLinear(m)
-   elseif torch.typename(m) == "nn.LogSoftMax" then
+   elseif torch.typename(m) == "nn.LogSoftMax" or torch.typename(m) == "cudnn.LogSoftMax" then
       return Model:newLogSoftMax(m)
    elseif torch.typename(m) == "nn.Dropout" then
       return Model:toDropout(m)
    else
-      error("Module unrecognized")
+      error("Unrecognized module for creation: "..tostring(m.module))
    end
 end
 
