@@ -12,13 +12,14 @@ function Model:__init(config)
       print "Using cudnn."
       cudnn.benchmark = true
       cudnn.fastest = true
-      usecudnn = true
+      self.cudnn = true
    else
       if pcall(function() require('cunn') end) then
       	print "Using cunn."
       else
       	print "Using nn."
       end
+      self.cudnn = false
    end
 
    -- Create a sequential for self
@@ -27,12 +28,7 @@ function Model:__init(config)
    else
       self.sequential = Model:createSequential(config)
    end
-   
-   if usecudnn == true then
-      cudnn.convert(self.sequential, cudnn)
-      print(self.sequential)
-   end
-   
+
    self.p = config.p or 0.5
    self.tensortype = torch.getdefaulttensortype()
 end
@@ -196,7 +192,11 @@ end
 
 -- Create a new Spatial Convolution model
 function Model:createTemporalConvolution(m)
-   return nn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   if self.cudnn == true then
+      return cudnn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   else
+      return nn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   end
 end
 
 -- Create a new spatial max pooling model
@@ -211,7 +211,11 @@ end
 
 -- Create new logsoftmax module
 function Model:createLogSoftMax(m)
-   return nn.LogSoftMax()
+   if self.cudnn == true then
+      return cudnn.LogSoftMax()
+   else
+      return nn.LogSoftMax()
+   end
 end
 
 -- Create a new threshold
@@ -244,12 +248,20 @@ end
 
 -- Create a new LogSoftMax
 function Model:newLogSoftMax()
-   return nn.LogSoftMax()
+   if self.cudnn == true then
+      return cudnn.LogSoftMax()
+   else
+      return nn.LogSoftMax()
+   end
 end
 
 -- Convert a convolution module to standard
 function Model:toTemporalConvolution(m)
-   local new = nn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   if self.cudnn == true then
+      local new = cudnn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   else
+      local new = nn.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   end
    new.weight:copy(m.weight)
    new.bias:copy(m.bias)
    return new
