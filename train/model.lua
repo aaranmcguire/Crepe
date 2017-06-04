@@ -12,9 +12,14 @@ local Model = torch.class("Model")
 function Model:__init(config)
    -- Inject best backend.
    if pcall(function() require('cudnn') end) then
+      print "Using cudnn."
       self.backend = cudnn
    else
-      pcall(function() require('cunn') end)
+      if pcall(function() require('cunn') end) then
+      	print "Using cunn."
+      else
+      	print "Using nn."
+      end
       self.backend = nn
    end
 
@@ -188,7 +193,7 @@ end
 
 -- Create a new Spatial Convolution model
 function Model:createTemporalConvolution(m)
-   return self.backend.TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
+   return self.backend:TemporalConvolution(m.inputFrameSize, m.outputFrameSize, m.kW, m.dW)
 end
 
 -- Create a new spatial max pooling model
@@ -203,7 +208,7 @@ end
 
 -- Create new logsoftmax module
 function Model:createLogSoftMax(m)
-   return self.backend.LogSoftMax()
+   return self.backend:LogSoftMax()
 end
 
 -- Create a new threshold
