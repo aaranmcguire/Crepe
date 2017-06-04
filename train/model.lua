@@ -10,6 +10,8 @@ function Model:__init(config)
    -- Inject best backend.
    if pcall(function() require('cudnn') end) then
       print "Using cudnn."
+      cudnn.benchmark = true
+      cudnn.fastest = true
       usecudnn = true
    else
       if pcall(function() require('cunn') end) then
