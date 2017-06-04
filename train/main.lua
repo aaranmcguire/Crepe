@@ -4,9 +4,9 @@ By Xiang Zhang @ New York University
 ]]
 
 -- Necessary functionalities
---require("nn")
+require("nn")
 require("cutorch")
---require("cunn")
+require("cunn")
 
 -- Local requires
 require("data")
