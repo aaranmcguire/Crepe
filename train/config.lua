@@ -75,12 +75,6 @@ config.train.decay = 1e-5
 config.test = {}
 config.test.confusion = true
 
--- UI settings
-config.mui = {}
-config.mui.width = 1200
-config.mui.scale = 4
-config.mui.n = 16
-
 -- Main program
 config.main = {}
 config.main.type = "torch.CudaTensor"
@@ -93,5 +87,5 @@ config.main.details = true
 config.main.device = 1
 config.main.collectgarbage = 100
 config.main.logtime = 5
-config.main.debug = false
+config.main.debug = true
 config.main.test = true
