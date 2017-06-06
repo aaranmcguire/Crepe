@@ -172,13 +172,13 @@ function main.save()
     local filename
     local modelObjectToSave
     
-    if model.clearState then
+    if main.model.sequential.clearState then
         -- save the full model
         filename = paths.concat(config.main.save, '_' .. (main.train.epoch-1) .. '_Model.t7')
-        modelObjectToSave = model:clearState()
+        modelObjectToSave = main.model.sequential:clearState()
     else
         -- this version of Torch doesn't support clearing the model state => save only the weights
-        local Weights,Gradients = model:getParameters()
+        local Weights,Gradients = main.model.sequential:getParameters()
         filename = paths.concat(config.main.save, '_' .. (main.train.epoch-1) .. '_Weights.t7')
         modelObjectToSave = Weights
     end
