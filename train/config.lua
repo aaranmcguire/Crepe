@@ -78,8 +78,8 @@ config.test.confusion = true
 -- Main program
 config.main = {}
 config.main.type = "torch.CudaTensor"
-config.main.eras = 10
-config.main.epoches = 50
+config.main.eras = 20
+config.main.epoches = 5000
 config.main.randomize = 5e-2
 config.main.dropout = true
 config.main.save = "/data"
