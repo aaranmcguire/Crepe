@@ -169,20 +169,22 @@ function main.save()
    config.train.epoch = main.train.epoch
 
    -- Make the save
-   local time = os.time()
-   torch.save(
-      paths.concat(config.main.save,"main_"..(main.train.epoch-1).."_"..time..".t7b"),
-      {
-         config = config,
-	 record = main.record,
-	 momentum = main.train.old_grads:double()
-      }
-   )
-	      
-   torch.save(
-      paths.concat(config.main.save,"sequential_"..(main.train.epoch-1).."_"..time..".t7b"),
-      main.model:clearSequential(main.model:createSequential(config.model))
-   )
+    local filename
+    local modelObjectToSave
+    
+    if model.clearState then
+        -- save the full model
+        filename = paths.concat(config.main.save, '_' .. (main.train.epoch-1) .. '_Model.t7')
+        modelObjectToSave = model:clearState()
+    else
+        -- this version of Torch doesn't support clearing the model state => save only the weights
+        local Weights,Gradients = model:getParameters()
+        filename = paths.concat(config.main.save, '_' .. (main.train.epoch-1) .. '_Weights.t7')
+        modelObjectToSave = Weights
+    end
+    logmessage.display(0,'Snapshotting to ' .. filename)
+    torch.save(filename, modelObjectToSave)
+    logmessage.display(0,'Snapshot saved - ' .. filename)
    
    collectgarbage()
 end
