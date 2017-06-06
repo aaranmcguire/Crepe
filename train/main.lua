@@ -182,9 +182,9 @@ function main.save()
         filename = paths.concat(config.main.save, '_' .. (main.train.epoch-1) .. '_Weights.t7')
         modelObjectToSave = Weights
     end
-    logmessage.display(0,'Snapshotting to ' .. filename)
+    print('Snapshotting to ' .. filename)
     torch.save(filename, modelObjectToSave)
-    logmessage.display(0,'Snapshot saved - ' .. filename)
+    print('Snapshot saved - ' .. filename)
    
    collectgarbage()
 end
