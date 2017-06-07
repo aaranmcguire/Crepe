@@ -42,9 +42,6 @@ function Train:__init(data,model,loss,config)
       end
    end
 
-   -- Timing table
-   self.time = {}
-
    -- Store the configurations
    self.momentum = config.momentum or 0
    self.decay = config.decay or 0
@@ -72,7 +69,7 @@ end
 
 -- Run for one batch step
 function Train:batchStep()
-   self.clock = sys.clock()
+
    -- Get a batch of data
    self.batch_untyped,self.labels_untyped = self.data:getBatch(self.batch_untyped,self.labels_untyped)
    -- Make the data to correct type
@@ -80,11 +77,8 @@ function Train:batchStep()
    self.labels = self.labels or self.labels_untyped:type(self.model:type())
    self.batch:copy(self.batch_untyped:transpose(2, 3):contiguous())
    self.labels:copy(self.labels_untyped)
-   -- Record time
-   if self.model:type() == "torch.CudaTensor" then cutorch.synchronize() end
-   self.time.data = sys.clock() - self.clock
 
-   self.clock = sys.clock()
+
    -- Forward propagation
    self.output = self.model:forward(self.batch)
    self.objective = self.loss:forward(self.output,self.labels)
@@ -98,25 +92,16 @@ function Train:batchStep()
    else
       self.error = 1
    end
-   -- Record time
-   if self.model:type() == "torch.CudaTensor" then cutorch.synchronize() end
-   self.time.forward = sys.clock() - self.clock
-
-   self.clock = sys.clock()
+   
+   
    -- Backward propagation   
    self.grads:zero()
    self.gradOutput = self.loss:backward(self.output,self.labels)
    self.gradBatch = self.model:backward(self.batch,self.gradOutput)
-   -- Record time
-   if self.model:type() == "torch.CudaTensor" then cutorch.synchronize() end
-   self.time.backward = sys.clock() - self.clock
 
-   self.clock = sys.clock()
    -- Update the step
    self.old_grads:mul(self.momentum):add(self.grads:mul(-self.rate))
    self.params:mul(1-self.rate*self.decay):add(self.old_grads)
-   if self.model:type() == "torch.CudaTensor" then cutorch.synchronize() end
-   self.time.update = sys.clock() - self.clock
 
    -- Increment on the epoch
    self.epoch = self.epoch + 1
