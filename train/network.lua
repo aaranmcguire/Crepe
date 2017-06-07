@@ -2,13 +2,14 @@
 local Network = torch.class("Network")
 
 function Network:__init()
-  torch.setdefaulttensortype()
+
 end
 
 function Network:model()
 
   local net = nn.Sequential()
 
+  net:cuda()
   -- feature_len
   --net:add(nn.OneHot(71))
   
