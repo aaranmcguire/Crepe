@@ -6,6 +6,7 @@ By Xiang Zhang @ New York University
 -- Necessary functionalities
 require("nn")
 require("cutorch")
+require("cudnn")
 
 -- Local requires
 require("data")
@@ -31,20 +32,7 @@ function main.main()
       print("Device set to "..config.main.device)
    end
    
-   -- Install dependencies
-   if pcall(function() require('cudnn') end) then
-      print "Using cudnn."
-      cudnn.benchmark = true
-      cudnn.fastest = true
-      self.cudnn = true
-   else
-      if pcall(function() require('cunn') end) then
-      	print "Using cunn."
-      else
-      	print "Using nn."
-      end
-      self.cudnn = false
-   end
+   cudnn.fastest = true
 
    main.new()
    main.run()
