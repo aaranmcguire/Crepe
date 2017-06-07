@@ -49,21 +49,12 @@ function main.new()
 
    -- Load the model
    print("Loading the model...")
-   --main.model = Model(config.model)
-   --if config.main.randomize then
-   --   main.model:randomize(config.main.randomize)
-   --   print("Model randomized.")
-   --end
-   --main.model:type(config.main.type)
-   --print("Current model type: "..main.model:type())
-   --collectgarbage()
    
    print("Model: ")
-   local network = Network()
-   print(network.model())
+   local model = Network:model()
+   print(model:__tostring())
 
    
-
    -- Initiate the trainer
    print("Loading the trainer...")
    main.train = Train(main.train_data, main.model, config.loss(), config.train)
