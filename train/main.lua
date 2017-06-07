@@ -64,7 +64,6 @@ function main.new()
 
    -- Initiate the tester
    print("Loading the tester...")
-   main.test_train = Test(main.train_data, main.model, config.loss(), config.test)
    main.test_val = Test(main.val_data, main.model, config.loss(), config.test)
 
    collectgarbage()
@@ -74,6 +73,7 @@ end
 function main.run()
    --Run for this number of era
    for i = 1,config.main.eras do
+   
       if config.main.dropout then
 	 print("Enabling dropouts")
 	 main.model:enableDropouts()
@@ -81,15 +81,11 @@ function main.run()
 	 print("Disabling dropouts")
 	 main.model:disableDropouts()
       end
+      
       print("Training for era "..i)
       main.train:run(config.main.epoches, main.trainlog)
 
-      print("Disabling dropouts")
-      main.model:disableDropouts()
-      print("Testing on training data for era "..i)
-      main.test_train:run(main.testlog)
-
-      if config.main.test == nil or config.main.test == true then
+      if config.main.test == true then
 	 print("Disabling dropouts")
 	 print("Testing on test data for era "..i)
 	 main.test_val:run(main.testlog)
