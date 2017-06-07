@@ -19,8 +19,6 @@ function Train:__init(data,model,loss,config)
    self.data = data
    self.model = model
    self.loss = loss
-   
-   self.model = self.model:cuda()
 
    -- Store the configurations and states
    local config = config or {}
