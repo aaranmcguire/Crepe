@@ -14,6 +14,8 @@ function Network:model()
 
   local net = nn.Sequential():type('torch.CudaTensor');
   
+  net:add(nn.View(-1, 71))
+  
   -- feature_len
   net:add(nn.OneHot(71))
   
