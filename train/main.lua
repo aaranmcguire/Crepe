@@ -32,50 +32,10 @@ function main.main()
       print("Device set to "..config.main.device)
    end
 
-   main.argparse()
    main.new()
    main.run()
 end
 
--- Parse arguments
-function main.argparse()
-   local cmd = torch.CmdLine()
-
-   -- Options
-   cmd:option("-resume",0,"Resumption point in epoch. 0 means not resumption.")
-   cmd:text()
-   
-   -- Parse the option
-   local opt = cmd:parse(arg or {})
-   
-   -- Resumption operation
-   if opt.resume > 0 then
-      -- Find the main resumption file
-      local files = main.findFiles(paths.concat(config.main.save,"main_"..tostring(opt.resume).."_*.t7b"))
-      if #files ~= 1 then
-	 error("Found "..tostring(#files).." main resumption point.")
-      end
-      config.main.resume = files[1]
-      print("Using main resumption point "..config.main.resume)
-      -- Find the model resumption file
-      local files = main.findFiles(paths.concat(config.main.save,"sequential_"..tostring(opt.resume).."_*.t7b"))
-      if #files ~= 1 then
-	 error("Found "..tostring(#files).." model resumption point.")
-      end
-      config.model.file = files[1]
-      print("Using model resumption point "..config.model.file)
-      -- Resume the training epoch
-      config.train.epoch = tonumber(opt.resume) + 1
-      print("Next training epoch resumed to "..config.train.epoch)
-      -- Don't do randomize
-      if config.main.randomize then
-	 config.main.randomize = nil
-	 print("Disabled randomization for resumption")
-      end
-   end
-
-   return opt
-end
 
 -- Train a new experiment
 function main.new()
@@ -107,15 +67,6 @@ function main.new()
    main.test_train = Test(main.train_data, main.model, config.loss(), config.test)
    main.test_val = Test(main.val_data, main.model, config.loss(), config.test)
 
-   -- The record structure
-   main.record = {}
-   if config.main.resume then
-      print("Loading main record...")
-      local resume = torch.load(config.main.resume)
-      main.record = resume.record
-      if resume.momentum then main.train.old_grads:copy(resume.momentum) end
-   end
-
    collectgarbage()
 end
 
@@ -142,16 +93,6 @@ function main.run()
 	 print("Disabling dropouts")
 	 print("Testing on test data for era "..i)
 	 main.test_val:run(main.testlog)
-      end
-
-      print("Recording on era "..i)
-      main.record[#main.record+1] = {train_error = main.test_train.e,
-				     train_loss = main.test_train.l,
-				     val_error = main.test_val.e,
-				     val_loss = main.test_val.l}
-      if config.test.confusion then
-	 main.record[#main.record].train_confusion = main.test_train.confusion:clone()
-	 main.record[#main.record].val_confusion = main.test_val.confusion:clone()
       end
 
       print("Saving data")
