@@ -8,8 +8,6 @@ end
 function Network:model()
 
   local net = nn.Sequential()
-
-  net:type('torch.CudaTensor')
   
   -- feature_len
   --net:add(nn.OneHot(71))
@@ -61,6 +59,8 @@ function Network:model()
   -- weight initialization
   --local w,dw = net:getParameters()
   --w:normal():mul(5e-2)
+
+  net:type('torch.CudaTensor')
 
   return net
 
