@@ -23,8 +23,6 @@ function Test:__init(data,model,loss,config)
    -- Move the type
    self.loss:type(model:type())
 
-   -- Create time table
-   self.time = {}
 
    -- Set the confusion
    if config.confusion then
@@ -44,17 +42,13 @@ function Test:run(logfunc)
    if self.confusion then self.confusion:zero() end
 
    -- Start the loop
-   self.clock = sys.clock()
    for batch,labels,n in self.data:iterator() do
       self.batch = self.batch or batch:transpose(2,3):contiguous():type(self.model:type())
       self.labels = self.labels or labels:type(self.model:type())
       self.batch:copy(batch:transpose(2, 3):contiguous())
       self.labels:copy(labels)
-      -- Record time
-      if self.model:type() == "torch.CudaTensor" then cutorch.synchronize() end
-      self.time.data = sys.clock() - self.clock
 
-      self.clock = sys.clock()
+
       -- Forward propagation
       self.output = self.model:forward(self.batch)
       self.objective = self.loss:forward(self.output,self.labels)
@@ -63,11 +57,9 @@ function Test:run(logfunc)
       self.max = self.max:squeeze():double()
       self.decision = self.decision:squeeze():double()
       self.err = torch.ne(self.decision,self.labels:double()):sum()/self.labels:size(1)
-      -- Record time
-      if self.model:type() == "torch.CudaTensor" then cutorch.synchronize() end
-      self.time.forward = sys.clock() - self.clock
+      
 
-      self.clock = sys.clock()
+
       -- Accumulate the errors and losses
       self.e = self.e*(self.n/(self.n+n)) +  self.err*(n/(self.n+n))
       self.l = self.l*(self.n/(self.n+n)) + self.objective*(n/(self.n+n))
@@ -77,14 +69,11 @@ function Test:run(logfunc)
 	 end
       end
       self.n = self.n + n
-      -- Record time
-      if self.model:type() == "torch.CudaTensor" then cutorch.synchronize() end
-      self.time.accumulate = sys.clock() - self.clock
+      
 
       -- Call the log function
       if logfunc then logfunc(self) end
 
-      self.clock = sys.clock()
    end
    -- Average on the confusion matrix
    if self.confusion and self.n ~= 0 then self.confusion:div(self.n) end
