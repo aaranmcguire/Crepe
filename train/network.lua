@@ -65,3 +65,7 @@ function Network:model()
   return net
 
 end
+
+function Network:loss()
+  return nn.ClassNLLCriterion();
+end
