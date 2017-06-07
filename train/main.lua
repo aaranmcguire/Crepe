@@ -60,7 +60,7 @@ function main.new()
    
    print("Model: ")
    local network = Network()
-   print(network.model():__tostring())
+   print(network.model())
 
    
 
