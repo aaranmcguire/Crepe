@@ -6,11 +6,10 @@ By Xiang Zhang @ New York University
 -- Necessary functionalities
 require("nn")
 require("cutorch")
-require("cunn")
 
 -- Local requires
 require("data")
-require("model")
+require("network")
 require("train")
 require("test")
 
@@ -31,6 +30,21 @@ function main.main()
       cutorch.setDevice(config.main.device)
       print("Device set to "..config.main.device)
    end
+   
+   -- Install dependencies
+   if pcall(function() require('cudnn') end) then
+      print "Using cudnn."
+      cudnn.benchmark = true
+      cudnn.fastest = true
+      self.cudnn = true
+   else
+      if pcall(function() require('cunn') end) then
+      	print "Using cunn."
+      else
+      	print "Using nn."
+      end
+      self.cudnn = false
+   end
 
    main.new()
    main.run()
@@ -46,17 +60,19 @@ function main.new()
 
    -- Load the model
    print("Loading the model...")
-   main.model = Model(config.model)
-   if config.main.randomize then
-      main.model:randomize(config.main.randomize)
-      print("Model randomized.")
-   end
-   main.model:type(config.main.type)
-   print("Current model type: "..main.model:type())
-   collectgarbage()
+   --main.model = Model(config.model)
+   --if config.main.randomize then
+   --   main.model:randomize(config.main.randomize)
+   --   print("Model randomized.")
+   --end
+   --main.model:type(config.main.type)
+   --print("Current model type: "..main.model:type())
+   --collectgarbage()
    
    print("Model: ")
-   print(main.model.sequential)
+   print(network.model:__tostring())
+
+   
 
    -- Initiate the trainer
    print("Loading the trainer...")
