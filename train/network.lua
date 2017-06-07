@@ -2,7 +2,7 @@
 local Network = torch.class("Network")
 
 function Network:__init()
-
+  torch.setdefaulttensortype()
 end
 
 function Network:model()
