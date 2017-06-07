@@ -9,7 +9,8 @@ function Network:model()
 
   local net = nn.Sequential()
 
-  net:cuda()
+  net:type('torch.CudaTensor')
+  
   -- feature_len
   --net:add(nn.OneHot(71))
   
