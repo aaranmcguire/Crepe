@@ -32,9 +32,6 @@ function main.main()
       print("Device set to "..config.main.device)
    end
 
-   main.clock = {}
-   main.clock.log = 0
-
    main.argparse()
    main.new()
    main.run()
@@ -195,19 +192,14 @@ function main.trainlog(train)
       print("Collecting garbage at epoch = "..(train.epoch-1))
       collectgarbage()
    end
-
-   if (os.time() - main.clock.log) >= (config.main.logtime or 1) then
+   
       local msg = ""
       
       if config.main.details then
 	 msg = msg.."epo: "..(train.epoch-1)..
 	    ", rat: "..string.format("%.2e",train.rate)..
 	    ", err: "..string.format("%.2e",train.error)..
-	    ", obj: "..string.format("%.2e",train.objective)..
-	    ", dat: "..string.format("%.2e",train.time.data)..
-	    ", fpp: "..string.format("%.2e",train.time.forward)..
-	    ", bpp: "..string.format("%.2e",train.time.backward)..
-	    ", upd: "..string.format("%.2e",train.time.update)
+	    ", obj: "..string.format("%.2e",train.objective)
       end
       
       if config.main.debug then
@@ -233,8 +225,6 @@ function main.trainlog(train)
 	 print(msg)
       end
 
-      main.clock.log = os.time()
-   end
 end
 
 function main.testlog(test)
@@ -243,17 +233,12 @@ function main.testlog(test)
       collectgarbage()
    end
    if not config.main.details then return end
-   if (os.time() - main.clock.log) >= (config.main.logtime or 1) then
-      print("n: "..test.n..
-	       ", e: "..string.format("%.2e",test.e)..
-	       ", l: "..string.format("%.2e",test.l)..
-	       ", err: "..string.format("%.2e",test.err)..
-	       ", obj: "..string.format("%.2e",test.objective)..
-	       ", dat: "..string.format("%.2e",test.time.data)..
-	       ", fpp: "..string.format("%.2e",test.time.forward)..
-	       ", acc: "..string.format("%.2e",test.time.accumulate))
-      main.clock.log = os.time()
-   end
+   print("n: "..test.n..
+	", e: "..string.format("%.2e",test.e)..
+	", l: "..string.format("%.2e",test.l)..
+	", err: "..string.format("%.2e",test.err)..
+	", obj: "..string.format("%.2e",test.objective))
+      
 end
 
 -- Utility function: find files with the specific 'ls' pattern
