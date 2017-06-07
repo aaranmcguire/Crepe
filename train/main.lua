@@ -36,7 +36,7 @@ function main.main()
    cudnn.fastest = true
 
    main.new()
-   main.run()
+   --main.run()
 end
 
 
@@ -57,11 +57,11 @@ function main.new()
    
    -- Initiate the trainer
    print("Loading the trainer...")
-   main.train = Train(main.train_data, main.model, config.loss(), config.train)
+   main.train = Train(main.train_data, Network)
 
    -- Initiate the tester
-   print("Loading the tester...")
-   main.test_val = Test(main.val_data, main.model, config.loss(), config.test)
+   --print("Loading the tester...")
+   --main.test_val = Test(main.val_data, main.model, config.loss(), config.test)
 
    collectgarbage()
 end
