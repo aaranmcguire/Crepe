@@ -1,8 +1,3 @@
---[[
-Model Program for Crepe
-By Xiang Zhang @ New York University
---]]
-
 -- The class
 local Network = torch.class("Network")
 
@@ -62,8 +57,8 @@ function Network:model()
   net:add(cudnn.LogSoftMax())
 
   -- weight initialization
-  local w,dw = net:getParameters()
-  w:normal():mul(5e-2)
+  --local w,dw = net:getParameters()
+  --w:normal():mul(5e-2)
 
   return net
 
