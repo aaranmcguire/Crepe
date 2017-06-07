@@ -58,6 +58,7 @@ function main.new()
    --collectgarbage()
    
    print("Model: ")
+   local network = Network()
    print(network.model:__tostring())
 
    
