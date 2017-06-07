@@ -48,7 +48,7 @@ function Network:model()
   net:add(nn.Reshape(8704))
   
   -- 8704
-  net:add(nn.Linear(8704, 1024))
+  net:add(nn.Linear(1024, 1024))
   net:add(nn.Threshold())
   net:add(nn.Dropout(0.5))
   
