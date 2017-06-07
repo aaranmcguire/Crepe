@@ -87,5 +87,5 @@ config.main.details = true
 config.main.device = 1
 config.main.collectgarbage = 100
 config.main.logtime = 5
-config.main.debug = true
+config.main.debug = false
 config.main.test = true
