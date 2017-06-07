@@ -1,8 +1,3 @@
-require('torch')
-require('nn')
-require('cudnn')
-
-
 -- The class
 local Network = torch.class("Network")
 
