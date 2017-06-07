@@ -10,7 +10,7 @@ function Network:model()
   local net = nn.Sequential()
 
   -- feature_len
-  net:add(nn.OneHot(71))
+  --net:add(nn.OneHot(71))
   
   -- #alphabet x 1014
   net:add(cudnn.TemporalConvolution(71, 256, 7))
