@@ -25,7 +25,7 @@ function Train:run(epoches,logfunc)
    end
    -- The loop
    for i = 1,epoches do
-      self:batchStep()
+      --self:batchStep()
       if logfunc then logfunc(self,i) end
    end
 end
