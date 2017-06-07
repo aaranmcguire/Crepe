@@ -12,7 +12,7 @@ end
 
 function Network:model()
 
-  local net = nn.Sequential()
+  local net = nn.Sequential();
   
   -- feature_len
   net:add(nn.OneHot(71))
