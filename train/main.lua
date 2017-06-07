@@ -70,26 +70,18 @@ end
 function main.run()
    --Run for this number of era
    for i = 1,config.main.eras do
-   
-      if config.main.dropout then
-	 print("Enabling dropouts")
-	 main.model:enableDropouts()
-      else
-	 print("Disabling dropouts")
-	 main.model:disableDropouts()
-      end
       
       print("Training for era "..i)
-      main.train:run(config.main.epoches, main.trainlog)
+      main.train:run(config.main.epoches)
 
-      if config.main.test == true then
-	 print("Disabling dropouts")
-	 print("Testing on test data for era "..i)
-	 main.test_val:run(main.testlog)
-      end
+      --if config.main.test == true then
+	-- print("Disabling dropouts")
+	-- print("Testing on test data for era "..i)
+	-- main.test_val:run(main.testlog)
+      --end
 
-      print("Saving data")
-      main.save()
+      --print("Saving data")
+      --main.save()
       collectgarbage()
    end
 end
