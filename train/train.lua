@@ -1,52 +1,15 @@
---[[
-Trainer for Crepe
-By Xiang Zhang @ New York University
---]]
-
-require("sys")
-
 local Train = torch.class("Train")
 
--- Initialization of the trainer class
--- data: the data object
--- model: the model object
--- loss: the loss object
--- config: (optional) the configuration table
---      .rates: (optional) the table of learning rates, indexed by the number of epoches
---      .epoch: (optional) current epoch
-function Train:__init(data,model,loss,config)
-   -- Store the objects
-   self.data = data
-   self.model = model
-   self.loss = loss
+function Train:__init(data, network)
+   -- Set vars
+   self.model = network:model();
+   self.loss = network:loss();
 
-   -- Store the configurations and states
-   local config = config or {}
-   self.rates = config.rates or {1e-3}
-   self.epoch = config.epoch or 1
-
-   -- Get the parameters and gradients
-   self.params, self.grads = self.model.sequential:getParameters()
-   self.old_grads = self.grads:clone():zero()
-
-   -- Make the loss correct type
-   self.loss:type(self.model.sequential:type())
-
-   -- Find the current rate
-   local max_epoch = 1
-   self.rate = self.rates[1]
-   for i,v in pairs(self.rates) do
-      if i <= self.epoch and i > max_epoch then
-	 max_epoch = i
-	 self.rate = v
-      end
-   end
-
-   -- Store the configurations
-   self.momentum = config.momentum or 0
-   self.decay = config.decay or 0
-   self.normalize = config.normalize
-   self.recapture = config.recapture
+   -- Load Network into GPU
+   self.model = self.model:cuda();
+   self.loss = self.loss:cuda();
+   
+   print("Ready to train...")
 end
 
 -- Run for a number of steps
