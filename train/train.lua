@@ -17,8 +17,8 @@ local Train = torch.class("Train")
 function Train:__init(data,model,loss,config)
    -- Store the objects
    self.data = data
-   self.model = model
-   self.loss = loss
+   self.model = model:cuda()
+   self.loss = loss:cuda()
 
    -- Store the configurations and states
    local config = config or {}
