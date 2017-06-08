@@ -36,7 +36,8 @@ function Train:formatData(data)
    local formatedData = {}
    for class = 1, #data.data.index do
       print('Class #:'..class);
-      print('# of data in class: '..#data.data.index[class]);
+      print('# of data in class: ') 
+      print(#data.data.index[class]);
       
       
       --for dataID = 1, #data.data.index[class] do
