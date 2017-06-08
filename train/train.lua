@@ -21,7 +21,7 @@ end
 
 function Train:formatData(data)
    
-   local formatedData = { data = {}, class = {} }
+   local formatedData = { data = {}, label = {} }
    
    for class = 1, #data.data.index do
       print('Class #:'..class);
