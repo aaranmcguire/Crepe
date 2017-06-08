@@ -33,16 +33,9 @@ function Train:formatData(data)
       )
    )
    --^^  ¯\_(ツ)_/¯ -- No clue what this is doing, but this is the string of the input
-   local s = '';
-   for l = data.data.index[randomClass][randomDataFromClass]:size(1) - 1, 1, -1 do
-	   s = s.." "..ffi.string(torch.data(data.data.content:narrow(1, data.data.index[randomClass][randomDataFromClass][l], 1)))
-   end
    
    
    print(dataString)
-   
-   print('--')
-   print(s)
    
    return formatedData
 end
