@@ -21,7 +21,8 @@ end
 
 function Train:formatData(data)
    
-   local formatedData = { data = {}, label = {} }
+   local formatedData_data = {}
+   local formatedData_labels = {}
    
    for class = 1, #data.data.index do
       print('Class #:'..class);
@@ -29,7 +30,7 @@ function Train:formatData(data)
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         table.insert(formatedData.data, self:toTensor(
+         table.insert(formatedData_data, self:toTensor(
             ffi.string(
                torch.data(
                   data.data.content:narrow(
@@ -39,7 +40,7 @@ function Train:formatData(data)
             ):lower()
          , 1014));
          
-         table.insert(formatedData.label, class);
+         table.insert(formatedData_labels, class);
          
       end
    end
