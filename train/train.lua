@@ -39,7 +39,7 @@ function Train:formatData(data)
             ):lower()
          , 1014));
          
-         table.insert(formatedData.label, class:type('torch.CudaTensor'));
+         table.insert(formatedData.label, class);
          
       end
    end
