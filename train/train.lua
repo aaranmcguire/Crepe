@@ -17,10 +17,17 @@ end
 function Train:formatData(data)
    local formatedData = ''
    
-   local randomClass = torch.random(#data.data.index) -- Select from one of the classifications.
-   local randomDataFromClass = torch.random(data.data.index[randomClass]:size(1))
+   local randomClass = torch.random(#data.data.index)
+   --^^ Random select of one of the classifications.
    
-   print(randomDataFromClass)
+   local randomDataFromClass = torch.random(data.data.index[randomClass]:size(1))
+   --^^ Random select or one of the data inputs from teh selected Class.
+   
+   local dataString = data.index[randomClass][randomDataFromClass][ data.index[randomClass][randomDataFromClass]:size(1) ]
+   --^^  ¯\_(ツ)_/¯ -- No clue what this is doing.
+   
+   
+   print(dataString)
    
    return formatedData
 end
