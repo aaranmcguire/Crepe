@@ -48,7 +48,7 @@ function Train:formatData(data)
             )
          ):lower();
          
-         --formatedData.insert({dataString, class});
+         table.insert(formatedData, {dataString, class});
       end
    end
    
