@@ -32,7 +32,7 @@ function Train:formatData(data)
          )
       )
    )
-   --^^  ¯\_(ツ)_/¯ -- No clue what this is doing.
+   --^^  ¯\_(ツ)_/¯ -- No clue what this is doing, but this is the string of the input
    
    
    print(dataString)
