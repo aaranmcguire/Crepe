@@ -44,11 +44,13 @@ function Train:formatData(data)
    local tensor = torch.Tensor(#data.alphabet, 1014)
    tensor:zero()
    for i = #dataString, math.max(#dataString - 1014 + 1, 1), -1 do
+      print('I:'..i)
       if data.dict[dataString:sub(i,i)] then
          tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
       end
    end
-   print(tensor)
+   
+   --print(tensor)
    
    return formatedData
 end
