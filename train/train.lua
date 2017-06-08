@@ -31,12 +31,21 @@ function Train:formatData(data)
             1, data.data.index[randomClass][randomDataFromClass][( data.data.index[randomClass][randomDataFromClass]:size(1) )], 1
          )
       )
-   )
+   ):lower();
    --^^  ¯\_(ツ)_/¯ -- No clue what this is doing, but this is the string of the input
    
    print(dataString)
+   print('Data Length: '..#dataString)
+   
    print('---')
-   print(data:stringToTensor(dataString))
+   local tensor = torch.Tensor(#data.alphabet, 1014)
+   tensor:zero()
+   for i = #dataString, math.max(#dataString - l + 1, 1), -1 do
+      if data.dict[dataString:sub(i,i)] then
+	      tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
+      end
+   end
+   print(t)
    
    return formatedData
 end
