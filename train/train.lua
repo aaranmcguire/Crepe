@@ -19,6 +19,7 @@ function Train:formatData(data)
    for batch,labels,n in data:iterator() do
    
       print(batch)
+      print(labels)
       
       
    end
