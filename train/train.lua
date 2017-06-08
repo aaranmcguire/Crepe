@@ -23,7 +23,7 @@ function Train:formatData(data)
    local randomDataFromClass = torch.random(data.data.index[randomClass]:size(1))
    --^^ Random select or one of the data inputs from teh selected Class.
    
-   local dataString = data.data.index[randomClass][randomDataFromClass][ data.index[randomClass][randomDataFromClass]:size(1) ]
+   local dataString = data.data.index[randomClass][randomDataFromClass][ data.data.index[randomClass][randomDataFromClass]:size(1) ]
    --^^  ¯\_(ツ)_/¯ -- No clue what this is doing.
    
    
