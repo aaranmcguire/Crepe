@@ -13,10 +13,8 @@ function Train:__init(data, network)
    print("Ready to train...")
 end
 
-function Train:train()
+function Train:run()
    
-   
-   
-   print(data[1])
+   print(self.data[1])
    
 end
