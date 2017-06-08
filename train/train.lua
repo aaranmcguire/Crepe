@@ -21,9 +21,14 @@ end
 
 function Train:formatData(data)
    
-   local formatedData = {}
-   local formatedData.data = {}
-   local formatedData.label = {}
+   setmetatable(formatedData, 
+      {
+         __index = function(t, i) 
+            return { t.data[i], t.label[i] } 
+         end
+      }
+   );
+   
    
    for class = 1, #data.data.index do
       print('Class #:'..class);
@@ -45,14 +50,6 @@ function Train:formatData(data)
          
       end
    end
-   
-   setmetatable(formatedData, 
-      {
-         __index = function(t, i) 
-            return { t.data[i], t.label[i] } 
-         end
-      }
-   );
    
    return formatedData
 
