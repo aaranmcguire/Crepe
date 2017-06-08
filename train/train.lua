@@ -45,7 +45,7 @@ function Train:formatData(data)
          tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
       end
    end
-   print(t)
+   print(tensor)
    
    return formatedData
 end
