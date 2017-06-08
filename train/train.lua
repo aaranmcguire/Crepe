@@ -37,21 +37,21 @@ function Train:formatData(data)
    for class = 1, #data.data.index do
       print('Class #:'..class);
       print('# of data in class: ') 
-      print(#data.data.index[class]);
+      print(data.data.index[class]:size(1));
       
       
-      --for dataID = 1, #data.data.index[class] do
+      for dataID = 1, data.data.index[class]:size(1) do
+       
+         local dataString = ffi.string(
+            torch.data(
+               data.data.content:narrow(
+                  1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
+               )
+            )
+         ):lower();
          
-      --   local dataString = ffi.string(
-      --      torch.data(
-      --         data.data.content:narrow(
-      --            1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
-      --         )
-      --      )
-      --   ):lower();
-      --   
-      --   formatedData.insert({dataString, class});
-      --end
+         formatedData.insert({dataString, class});
+      end
    end
    
    return formatedData
