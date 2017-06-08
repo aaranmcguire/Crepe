@@ -40,9 +40,9 @@ function Train:formatData(data)
    print('---')
    local tensor = torch.Tensor(#data.alphabet, 1014)
    tensor:zero()
-   for i = #dataString, math.max(#dataString - l + 1, 1), -1 do
+   for i = #dataString, math.max(#dataString - 1014 + 1, 1), -1 do
       if data.dict[dataString:sub(i,i)] then
-	      tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
+         tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
       end
    end
    print(t)
