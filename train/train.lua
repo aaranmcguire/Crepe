@@ -17,7 +17,6 @@ function Train:__init(data, network)
 end
 
 function Train:formatData(data)
-   local formatedData = ''
    
    local randomClass = torch.random(#data.data.index)
    --^^ Random select of one of the classifications.
@@ -34,13 +33,32 @@ function Train:formatData(data)
    ):lower();
    --^^  ¯\_(ツ)_/¯ -- No clue what this is doing, but this is the string of the input
    
-   local dataString = 'abcdefghijklmnopqrstuvwxyz'
+   local formatedData = {}
+   for class = 1, #data.data.index, +1 do
+      for dataID = 1, #data.data.index[class], +1 do
+         
+         local dataString = ffi.string(
+            torch.data(
+               data.data.content:narrow(
+                  1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
+               )
+            )
+         ):lower();
+         
+         formatedData.insert({dataString, class});
+      end
+   end
    
-   print(dataString)
-   print('Data Length: '..#dataString)
-   print('Alphabet Length:'..#data.alphabet)
+   return formatedData
    
-   print('---')
+   
+   --local dataString = 'abcdefghijklmnopqrstuvwxyz'
+   
+   --print(dataString)
+   --print('Data Length: '..#dataString)
+   --print('Alphabet Length:'..#data.alphabet)
+   
+   --print('---')
    local tensor = torch.Tensor(#data.alphabet, 1014)
    tensor:zero()
    for i = #dataString, math.max(#dataString - 1014 + 1, 1), -1 do
@@ -52,7 +70,6 @@ function Train:formatData(data)
    --^^ Works backwards on string lenth resulting in backwards text, and padding at the end.
    --^^ I don't think this should matter as character placement in words is a human concept, not a computer one.
    
-   return formatedData
 end
 
 
