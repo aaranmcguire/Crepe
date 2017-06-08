@@ -12,7 +12,9 @@ function Train:__init(data, network)
    -- Load Network into GPU
    self.module = self.module:cuda();
    self.criterion = self.criterion:cuda();
-   self.dataset = self.dataset:cuda()
+   
+   self.dataset.data = self.dataset.data:cuda();
+   --self.dataset.label = self.dataset.label:cuda();
    
    print("Ready to train...")
 end
@@ -20,13 +22,16 @@ end
 function Train:formatData(data)
    
    local formatedData = {}
+   local formatedData.data = {}
+   local formatedData.label = {}
+   
    for class = 1, #data.data.index do
       print('Class #:'..class);
       print('# of data in class: '..data.data.index[class]:size(1));
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         local dataTensor = self:toTensor(
+         table.insert(formatedData.data, self:toTensor(
             ffi.string(
                torch.data(
                   data.data.content:narrow(
@@ -34,27 +39,23 @@ function Train:formatData(data)
                   )
                )
             ):lower()
-         , 1014);
+         , 1014));
          
-         table.insert(formatedData, {dataString:type('torch.CudaTensor'), class:type('torch.CudaTensor')});
+         table.insert(formatedData.label, class:type('torch.CudaTensor'));
+         
       end
    end
    
+   setmetatable(formatedData, 
+      {
+         __index = function(t, i) 
+            return { t.data[i], t.label[i] } 
+         end
+      }
+   );
+   
    return formatedData
-   
-   
-   --print('---')
-   --local tensor = torch.Tensor(#data.alphabet, 1014)
-   --tensor:zero()
-   --for i = #dataString, math.max(#dataString - 1014 + 1, 1), -1 do
-    --  print('I:'..i)
-    --  if data.dict[dataString:sub(i,i)] then
-    --     tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
-     -- end
-   --end
-   --^^ Works backwards on string lenth resulting in backwards text, and padding at the end.
-   --^^ I don't think this should matter as character placement in words is a human concept, not a computer one.
-   
+
 end
 
 
