@@ -18,19 +18,19 @@ end
 
 function Train:formatData(data)
    
-   local randomClass = torch.random(#data.data.index)
+   --local randomClass = torch.random(#data.data.index)
    --^^ Random select of one of the classifications.
    
-   local randomDataFromClass = torch.random(data.data.index[randomClass]:size(1))
+   --local randomDataFromClass = torch.random(data.data.index[randomClass]:size(1))
    --^^ Random select or one of the data inputs from teh selected Class.
    
-   local dataString = ffi.string(
-      torch.data(
-         data.data.content:narrow(
-            1, data.data.index[randomClass][randomDataFromClass][( data.data.index[randomClass][randomDataFromClass]:size(1) )], 1
-         )
-      )
-   ):lower();
+   --local dataString = ffi.string(
+   --   torch.data(
+   --      data.data.content:narrow(
+   --         1, data.data.index[randomClass][randomDataFromClass][( data.data.index[randomClass][randomDataFromClass]:size(1) )], 1
+   --      )
+   --   )
+   --):lower();
    --^^  ¯\_(ツ)_/¯ -- No clue what this is doing, but this is the string of the input
    
    local formatedData = {}
@@ -59,14 +59,14 @@ function Train:formatData(data)
    --print('Alphabet Length:'..#data.alphabet)
    
    --print('---')
-   local tensor = torch.Tensor(#data.alphabet, 1014)
-   tensor:zero()
-   for i = #dataString, math.max(#dataString - 1014 + 1, 1), -1 do
-      print('I:'..i)
-      if data.dict[dataString:sub(i,i)] then
-         tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
-      end
-   end
+   --local tensor = torch.Tensor(#data.alphabet, 1014)
+   --tensor:zero()
+   --for i = #dataString, math.max(#dataString - 1014 + 1, 1), -1 do
+    --  print('I:'..i)
+    --  if data.dict[dataString:sub(i,i)] then
+    --     tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
+     -- end
+   --end
    --^^ Works backwards on string lenth resulting in backwards text, and padding at the end.
    --^^ I don't think this should matter as character placement in words is a human concept, not a computer one.
    
