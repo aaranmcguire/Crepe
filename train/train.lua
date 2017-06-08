@@ -34,6 +34,8 @@ function Train:formatData(data)
    ):lower();
    --^^  ¯\_(ツ)_/¯ -- No clue what this is doing, but this is the string of the input
    
+   local dataString = 'abcdefghijklmnopqrstuvwxyz'
+   
    print(dataString)
    print('Data Length: '..#dataString)
    print('Alphabet Length:'..#data.alphabet)
