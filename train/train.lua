@@ -36,9 +36,7 @@ function Train:formatData(data)
    local formatedData = {}
    for class = 1, #data.data.index do
       print('Class #:'..class);
-      print('# of data in class: ') 
-      print(data.data.index[class]:size(1));
-      
+      print('# of data in class: '..data.data.index[class]:size(1));
       
       for dataID = 1, data.data.index[class]:size(1) do
        
@@ -50,7 +48,7 @@ function Train:formatData(data)
             )
          ):lower();
          
-         formatedData.insert({dataString, class});
+         --formatedData.insert({dataString, class});
       end
    end
    
