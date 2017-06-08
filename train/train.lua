@@ -17,19 +17,7 @@ end
 function Train:formatData(data)
    local formatedData = ''
    
-   for batch,labels,n in data:iterator() do
-   
-      
-      local label = labels;
-      local input = batch:transpose(2,3):contiguous();
-      print(n);
-      
-      print(input);
-      print(label);
-      
-      break;
-      
-   end
+   print(data.data.index[1]:size(1))
    
    return formatedData
 end
