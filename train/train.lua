@@ -4,7 +4,8 @@ function Train:__init(data, network)
    -- Set vars
    self.module = network:model();
    self.criterion = network:loss();
-   self.data = self:formatData(data);
+   
+   self:formatData(data);
 
    -- Load Network into GPU
    self.module = self.module:cuda();
