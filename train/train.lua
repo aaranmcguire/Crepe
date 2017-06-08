@@ -4,7 +4,7 @@ function Train:__init(data, network)
    -- Set vars
    self.module = network:model();
    self.criterion = network:loss();
-   self.data = data;
+   self.data = self:formatData(data);
 
    -- Load Network into GPU
    self.module = self.module:cuda();
@@ -13,8 +13,21 @@ function Train:__init(data, network)
    print("Ready to train...")
 end
 
+function Train:formatData(data)
+   local formatedData = ''
+   
+   for batch,labels,n in data:iterator() do
+   
+      print(batch)
+      
+      
+   end
+   
+   return formatedData
+end
+
+
 function Train:run()
    
-   print(self.data[1])
    
 end
