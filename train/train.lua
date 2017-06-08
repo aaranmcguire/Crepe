@@ -18,8 +18,13 @@ function Train:formatData(data)
    
    for batch,labels,n in data:iterator() do
    
-      print(batch)
-      print(labels)
+      
+      local label = labels;
+      local input = batch:transpose(2,3):contiguous();
+      print(n);
+      
+      print(input);
+      print(label);
       
       
    end
