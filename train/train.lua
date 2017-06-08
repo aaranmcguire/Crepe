@@ -1,4 +1,5 @@
 local ffi = require("ffi")
+local tds = require ("tds")
 
 local Train = torch.class("Train")
 
@@ -20,9 +21,8 @@ function Train:__init(data, network)
 end
 
 function Train:formatData(data)
-   
-   local formatedData_data = {}
-   local formatedData_labels = {}
+   local i = 1;
+   local formatedData = tds.Hash()
    
    for class = 1, #data.data.index do
       print('Class #:'..class);
@@ -30,7 +30,7 @@ function Train:formatData(data)
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         table.insert(formatedData_data, self:toTensor(
+         formatedData[data][i] = self:toTensor(
             ffi.string(
                torch.data(
                   data.data.content:narrow(
@@ -40,19 +40,11 @@ function Train:formatData(data)
             ):lower()
          , 1014));
          
-         table.insert(formatedData_labels, class);
-         
+         formatedData[label][i] = class;
+         i = i + 1;
       end
    end
-   
-   setmetatable(formatedData, 
-      {
-         __index = function(t, i) 
-            return { t.data[i], t.label[i] } 
-         end
-      }
-   );
-   
+
    return formatedData
 
 end
