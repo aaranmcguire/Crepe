@@ -17,7 +17,7 @@ end
 function Train:formatData(data)
    local formatedData = ''
    
-   print(data.data.index[2]:size(1))
+   print(#data.data.index)
    
    return formatedData
 end
