@@ -20,19 +20,9 @@ function Data:__init(config)
    self.length = config.length or 1014
    self.batch_size = config.batch_size or 128
    self.file = config.file
-   self.prob = config.prob
-   self.padding = config.padding
-   self.scale = config.scale
-   self.extra = config.extra
 
    self.config = config
    self.data = torch.load(self.file)
-
-   if self.prob then
-      for i = 1, #self.prob - 1 do
-	 self.prob[i + 1] = self.prob[i] + self.prob[i + 1]
-      end
-   end
 
 end
 
@@ -40,9 +30,8 @@ function Data:nClasses()
    return #self.data.index
 end
 
-function Data:getBatch(inputs, labels, data, extra)
+function Data:getBatch(inputs, labels, data)
    local data = data or self.data
-   local extra = extra or self.extra
    local inputs = inputs or torch.Tensor(self.batch_size, #self.alphabet, self.length)
    local labels = labels or torch.Tensor(inputs:size(1))
 
