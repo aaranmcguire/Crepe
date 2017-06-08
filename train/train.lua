@@ -44,6 +44,7 @@ function Train:formatData(data)
          --formatedData[label][i] = class;
          i = i + 1;
       end
+      collectgarbage()
    end
 
    return formatedData
