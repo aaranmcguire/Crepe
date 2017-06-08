@@ -1,3 +1,5 @@
+local ffi = require("ffi")
+
 local Train = torch.class("Train")
 
 function Train:__init(data, network)
@@ -23,7 +25,13 @@ function Train:formatData(data)
    local randomDataFromClass = torch.random(data.data.index[randomClass]:size(1))
    --^^ Random select or one of the data inputs from teh selected Class.
    
-   local dataString = data.data.index[randomClass][randomDataFromClass][ data.data.index[randomClass][randomDataFromClass]:size(1) ]
+   local dataString = ffi.string(
+      torch.data(
+         data.data.content:narrow(
+            1, data.data.index[label][input][( data.data.index[label][input]:size(1) )], 1
+         )
+      )
+   )
    --^^  ¯\_(ツ)_/¯ -- No clue what this is doing.
    
    
