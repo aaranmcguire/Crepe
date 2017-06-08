@@ -8,7 +8,7 @@ require("nn")
 -- The namespace
 config = {}
 
-local alphabet = "abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:'\"/\\|_@#$%^&*~`+-=<>()[]{}"
+local alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:'\"/\\|_@#$%^&*~`+-=<>()[]{}'
 
 -- Training data
 config.train_data = {}
