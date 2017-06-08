@@ -34,8 +34,8 @@ function Train:formatData(data)
    --^^  ¯\_(ツ)_/¯ -- No clue what this is doing, but this is the string of the input
    
    local formatedData = {}
-   for class = 1, #data.data.index, +1 do
-      for dataID = 1, #data.data.index[class], +1 do
+   for class = 1, #data.data.index do
+      for dataID = 1, #data.data.index[class] do
          
          local dataString = ffi.string(
             torch.data(
