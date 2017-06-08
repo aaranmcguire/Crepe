@@ -14,7 +14,7 @@ function Train:__init(data, network)
    self.module = self.module:cuda();
    self.criterion = self.criterion:cuda();
    
-   self.dataset.data = self.dataset.data:cuda();
+   --self.dataset.data = self.dataset.data:cuda();
    --self.dataset.label = self.dataset.label:cuda();
    
    print("Ready to train...")
@@ -22,7 +22,8 @@ end
 
 function Train:formatData(data)
    local i = 1;
-   local formatedData = tds.Hash()
+   --local formatedData = tds.Hash()
+   local formatedData = {}
    
    for class = 1, #data.data.index do
       print('Class #:'..class);
@@ -30,7 +31,7 @@ function Train:formatData(data)
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         formatedData[i] = self:toTensor(
+         table.insert(formatedData, self:toTensor(
             ffi.string(
                torch.data(
                   data.data.content:narrow(
@@ -38,7 +39,7 @@ function Train:formatData(data)
                   )
                )
             ):lower()
-         , 1014);
+         , 1014));
          
          --formatedData[label][i] = class;
          i = i + 1;
