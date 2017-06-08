@@ -38,7 +38,7 @@ function Train:formatData(data)
                   )
                )
             ):lower()
-         , 1014));
+         , 1014);
          
          formatedData[label][i] = class;
          i = i + 1;
