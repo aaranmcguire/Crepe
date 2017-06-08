@@ -27,6 +27,7 @@ function Train:formatData(data)
       print(input);
       print(label);
       
+      break()
       
    end
    
