@@ -17,7 +17,10 @@ end
 function Train:formatData(data)
    local formatedData = ''
    
-   print(data.data[2][300])
+   local randomClass = torch.random(#data.data.index) -- Select from one of the classifications.
+   local randomDataFromClass = torch.random(data.data.index[randomClass]:size(1))
+   
+   print(randomDataFromClass)
    
    return formatedData
 end
