@@ -36,6 +36,7 @@ function Train:formatData(data)
    
    print(dataString)
    print('Data Length: '..#dataString)
+   print('Alphabet Length:'..#data.alphabet)
    
    print('---')
    local tensor = torch.Tensor(#data.alphabet, 1014)
