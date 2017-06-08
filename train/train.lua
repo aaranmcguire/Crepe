@@ -49,8 +49,8 @@ function Train:formatData(data)
          tensor[data.dict[dataString:sub(i,i)]][#dataString - i + 1] = 1
       end
    end
-   
-   --print(tensor)
+   --^^ Works backwards on string lenth resulting in backwards text, and padding at the end.
+   --^^ I don't think this should matter as character placement in words is a human concept, not a computer one.
    
    return formatedData
 end
