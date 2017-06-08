@@ -7,8 +7,8 @@ function Train:__init(data, network)
    self.data = data;
 
    -- Load Network into GPU
-   self.module = self.model:cuda();
-   self.criterion = self.loss:cuda();
+   self.module = self.module:cuda();
+   self.criterion = self.criterion:cuda();
    
    print("Ready to train...")
 end
