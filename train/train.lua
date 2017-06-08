@@ -28,7 +28,7 @@ function Train:formatData(data)
    local dataString = ffi.string(
       torch.data(
          data.data.content:narrow(
-            1, data.data.index[label][input][( data.data.index[label][input]:size(1) )], 1
+            1, data.data.index[randomClass][randomDataFromClass][( data.data.index[randomClass][randomDataFromClass]:size(1) )], 1
          )
       )
    )
