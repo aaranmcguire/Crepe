@@ -15,7 +15,10 @@ function Train:__init(data, network)
    
    self.data = self:loadData(data)
    
-   self:createBatches()
+   self.batches = self:createBatches()
+   
+   print("1: "..#self.batches)
+   print("2: "..#self.batches[5])
    
    print("Ready to train...")
 end
@@ -53,14 +56,12 @@ function Train:createBatches(batchSize)
       
       if type(batches[batch]) ~= 'table' then
          batches[batch] = {}
-         print("Creating batch: "..batch)
       end
       
       table.insert(batches[batch], self.data[i])
                
       if (i % batchSize == 0) then
          batch = batch + 1
-         print("Batch: "..batch)
       end
    end
    
