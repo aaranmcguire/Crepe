@@ -52,7 +52,7 @@ function Train:loadData(data, batchSize)
 
 end
 
-function Train:LoadBatch(num)
+function Train:loadBatch(num)
 
 end
    
