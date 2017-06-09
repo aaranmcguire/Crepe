@@ -83,6 +83,7 @@ function Train:loadBatch(num)
    end
    
    local dataset = {["data"] = data, ["label"] = label}
+   trainset.data:double()
    
    setmetatable(dataset, {
       __index = function(t, i) 
