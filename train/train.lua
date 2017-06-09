@@ -15,7 +15,7 @@ function Train:__init(data, network)
    
    self.data = self:loadData(data)
    
-   createBatches()
+   self:createBatches()
    
    print("Ready to train...")
 end
