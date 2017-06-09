@@ -8,6 +8,7 @@ function Train:__init(data, network)
    self.data = data;
    self.alphabet = data.alphabet;
    self.dict = data.dict;
+   self.batchSize = 500;
    
    self.module = network:model();
    self.criterion = network:loss();
@@ -16,18 +17,15 @@ function Train:__init(data, network)
    self.module = self.module:cuda();
    self.criterion = self.criterion:cuda();
    
-   --self.data = self:loadData(data)
+   self.data = self:loadData(data)
    
-   --self.batches = self:createBatches()
-   
-   print(torch.Tensor(10, 69, 1014))
-   --print(torch.Tensor(00, 69, 1014):size(1))
+   self.batches = self:createBatches()
    
    
    print("Ready to train...")
 end
 
-function Train:loadData(data, batchSize)
+function Train:loadData(data)
    local formatedData = {}
 
    for class = 1, #data.data.index do
@@ -51,9 +49,9 @@ function Train:loadData(data, batchSize)
    return formatedData
 end
 
-function Train:createBatches(batchSize)
+function Train:createBatches()
    local batch = 1
-   local batchSize = batchSize or 1000
+   local batchSize = self.batchSize or 1000
    local batches = {}
    
    for i = 1, #self.data do
@@ -73,12 +71,13 @@ function Train:createBatches(batchSize)
 end
 
 function Train:loadBatch(num)
-   local data = {}
-   local label = {}
+   local data = torch.Tensor(self.batchSize, #self.alphabet, length);
+   data:zero();
+   local label = torch.Tensor(self.batchSize)
    
    for i = 1, #self.batches[num] do
       
-      data[i] = self:stringToTensor(self.batches[num][i]["data"], 1014);
+      --self:stringToTensor(self.batches[num][i]["data"], 1014, data:select(1, i));
       label[i] = self.batches[num][i]["label"];
       
    end
@@ -86,18 +85,13 @@ function Train:loadBatch(num)
    return {["data"] = data, ["label"] = label}
 end
    
-function Train:stringToTensor(data, length)
-   
-   local tensor = torch.Tensor(#self.alphabet, length);
-   tensor:zero();
+function Train:stringToTensor(data, length, tensor)
    for i = #data, math.max(#data - length + 1, 1), -1 do
       
       if self.dict[data:sub(i,i)] then
          tensor[self.dict[data:sub(i,i)]][#data - i + 1] = 1;
       end
    end
-   
-   return tensor;
 end
 
 function Train:run()
@@ -106,13 +100,6 @@ function Train:run()
       print("Batch:"..batch)
       local trainset = self:loadBatch(batch)
       
-      setmetatable(trainset, {
-         __index = function(t, i) 
-            return {t.data[i], t.label[i]} 
-         end
-      });
-      
-      trainset.data = trainset.data:double()
       
    end
    
