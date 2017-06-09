@@ -13,7 +13,7 @@ function Train:__init(data, network)
    self.module = self.module:cuda();
    self.criterion = self.criterion:cuda();
    
-   salf.data = self:loadData(data)
+   self.data = self:loadData(data)
    
    createBatches()
    
