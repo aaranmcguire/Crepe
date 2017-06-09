@@ -129,13 +129,21 @@ function Train:run()
       trainer.maxIteration = 5 -- just do 5 epochs of training.
       trainer.shuffleIndices = false
       
+      ----
+      
+      
       local input = trainset[1][1]
       local _input = input
       if input:dim()==2 then
           _input = input:view(1,input:size(1),input:size(2))
       end
       
-      print((_input:view(_input:size(1),1,_input:size(2),_input:size(3))):size(4))
+      local size = (_input:view(_input:size(1),1,_input:size(2),_input:size(3))):size(4)
+      
+      print("Size: "..size)
+      
+      
+      
       
       --trainer:train(trainset) -- TRAIN!!!
       
