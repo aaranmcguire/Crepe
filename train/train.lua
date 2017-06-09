@@ -72,7 +72,8 @@ function Train:createBatches()
 end
 
 function Train:loadBatch(num)
-   local data = torch.Tensor(self.batchSize, #self.alphabet, self.lenth);
+   --local data = torch.Tensor(self.batchSize, #self.alphabet, self.lenth);
+   local data = torch.Tensor(self.batchSize, self.lenth, #self.alphabet);
    local label = torch.Tensor(self.batchSize)
    
    for i = 1, #self.batches[num] do
@@ -83,8 +84,6 @@ function Train:loadBatch(num)
    end
    
    local dataset = {["data"] = data, ["label"] = label}
-   
-   dataset.data:transpose(2, 3):contiguous()
    
    dataset.data:double()
    
@@ -108,12 +107,26 @@ function Train:stringToTensor(data, length, tensor)
    tensor:zero();
    for i = #data, math.max(#data - length + 1, 1), -1 do
       if self.dict[data:sub(i,i)] then
-         tensor[self.dict[data:sub(i,i)]][#data - i + 1] = 1;
+         tensor[#data - i + 1][self.dict[data:sub(i,i)]] = 1;
       end
    end
    
    return tensor
 end
+
+ -- Old version
+
+--function Train:stringToTensor(data, length, tensor)
+--   tensor:zero();
+--   for i = #data, math.max(#data - length + 1, 1), -1 do
+--      if self.dict[data:sub(i,i)] then
+--         tensor[self.dict[data:sub(i,i)]][#data - i + 1] = 1;
+--      end
+--   end
+--   
+--   return tensor
+--end
+
 
 function Train:run()
    
