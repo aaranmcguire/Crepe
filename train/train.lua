@@ -38,9 +38,9 @@ function Train:formatData(data)
             )
          ):lower()
          
-         fomatedData[data][i] = self:StringtoTensor(string, #string)
+         formatedData[data][i] = self:stringToTensor(string, #string)
          
-         --formatedData[label][i] = class;
+         formatedData[label][i] = class;
          i = i + 1;
       end
       collectgarbage()
@@ -51,7 +51,7 @@ function Train:formatData(data)
 end
 
 
-function Train:StringtoTensor(data, length)
+function Train:stringToTensor(data, length)
    
    local tensor = torch.Tensor(#self.data.alphabet, length);
    tensor:zero();
