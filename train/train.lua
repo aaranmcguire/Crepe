@@ -73,7 +73,6 @@ end
 
 function Train:loadBatch(num)
    local data = torch.Tensor(self.batchSize, #self.alphabet, self.lenth);
-   data:zero();
    local label = torch.Tensor(self.batchSize)
    
    for i = 1, #self.batches[num] do
@@ -103,8 +102,8 @@ function Train:loadBatch(num)
 end
    
 function Train:stringToTensor(data, length, tensor)
+   tensor:zero();
    for i = #data, math.max(#data - length + 1, 1), -1 do
-      
       if self.dict[data:sub(i,i)] then
          tensor[self.dict[data:sub(i,i)]][#data - i + 1] = 1;
       end
