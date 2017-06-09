@@ -8,7 +8,7 @@ function Train:__init(data, network)
    self.data = data;
    self.alphabet = data.alphabet;
    self.dict = data.dict;
-   self.batchSize = 500;
+   self.batchSize = 1000;
    
    self.module = network:model();
    self.criterion = network:loss();
@@ -77,7 +77,7 @@ function Train:loadBatch(num)
    
    for i = 1, #self.batches[num] do
       
-      --self:stringToTensor(self.batches[num][i]["data"], 1014, data:select(1, i));
+      data[i] = self:stringToTensor(self.batches[num][i]["data"], 1014, data:select(1, i));
       label[i] = self.batches[num][i]["label"];
       
    end
@@ -92,6 +92,8 @@ function Train:stringToTensor(data, length, tensor)
          tensor[self.dict[data:sub(i,i)]][#data - i + 1] = 1;
       end
    end
+   
+   return tensor
 end
 
 function Train:run()
