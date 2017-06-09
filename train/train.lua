@@ -144,7 +144,7 @@ function Train:run()
       
       ----
       
-      
+     --[[ 
       local input = trainset[1][1]
       local _input = input
       if input:dim()==2 then
@@ -156,11 +156,9 @@ function Train:run()
       
       print(data)
       print("Size: "..size)
+      --]]
       
-      
-      
-      
-      --trainer:train(trainset) -- TRAIN!!!
+      trainer:train(trainset) -- TRAIN!!!
       
    end
    
