@@ -9,6 +9,7 @@ function Train:__init(data, network)
    self.alphabet = data.alphabet;
    self.dict = data.dict;
    self.batchSize = 5000;
+   self.lenth = 1024
    
    self.module = network:model();
    self.criterion = network:loss();
@@ -71,13 +72,13 @@ function Train:createBatches()
 end
 
 function Train:loadBatch(num)
-   local data = torch.Tensor(self.batchSize, #self.alphabet, 1014);
+   local data = torch.Tensor(self.batchSize, #self.alphabet, self.lenth);
    data:zero();
    local label = torch.Tensor(self.batchSize)
    
    for i = 1, #self.batches[num] do
       
-      data[i] = self:stringToTensor(self.batches[num][i]["data"], 1014, data:select(1, i));
+      data[i] = self:stringToTensor(self.batches[num][i]["data"], self.lenth, data:select(1, i));
       label[i] = self.batches[num][i]["label"];
       
    end
