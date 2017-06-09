@@ -22,8 +22,7 @@ end
 
 function Train:formatData(data)
    local i = 1;
-   --local formatedData = tds.Hash()
-   local formatedData = {}
+   local formatedData = tds.Hash()
    
    for class = 1, #data.data.index do
       print('Class #:'..class);
@@ -31,7 +30,7 @@ function Train:formatData(data)
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         table.insert(formatedData, self:toTensor(
+         formatedData[i] = (formatedData, (
             ffi.string(
                torch.data(
                   data.data.content:narrow(
@@ -39,7 +38,7 @@ function Train:formatData(data)
                   )
                )
             ):lower()
-         , 1014));
+         ));
          
          --formatedData[label][i] = class;
          i = i + 1;
