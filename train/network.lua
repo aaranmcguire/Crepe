@@ -9,10 +9,10 @@ function Network:model()
 
   local net = nn.Sequential():type('torch.CudaTensor');
   
-  net:add(nn.View(-1, 69))
+  --net:add(nn.View(-1, 69))
   
   -- feature_len
-  net:add(nn.OneHot(69))
+  --net:add(nn.OneHot(69))
   
   -- #alphabet x 1014
   net:add(cudnn.TemporalConvolution(69, 256, 7))
