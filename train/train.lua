@@ -77,12 +77,15 @@ function Train:loadBatch(num)
    
    for i = 1, #self.batches[num] do
       
-      data[i] = (self:stringToTensor(self.batches[num][i]["data"], self.lenth, data:select(1, i))):transpose(1, 2):contiguous();
+      data[i] = self:stringToTensor(self.batches[num][i]["data"], self.lenth, data:select(1, i))
       label[i] = self.batches[num][i]["label"];
       
    end
    
    local dataset = {["data"] = data, ["label"] = label}
+   
+   dataset.data:transpose(2, 3):contiguous()
+   
    dataset.data:double()
    
    setmetatable(dataset, {
