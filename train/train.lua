@@ -51,9 +51,7 @@ function Train:createBatches(batchSize)
    
    for i = 1, #self.data do
       
-      if type(batches[batch]) ~= table then
-         
-         print("Type:"..type(batches[batch]));
+      if type(batches[batch]) ~= 'table' then
          batches[batch] = {}
          print("Creating batch: "..batch)
       end
