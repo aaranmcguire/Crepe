@@ -13,7 +13,7 @@ function Train:__init(data, network)
    self.module = self.module:cuda();
    self.criterion = self.criterion:cuda();
    
-   self:loadData(data)
+   self:loadData(data, 1000)
    
    print("Ready to train...")
 end
