@@ -45,7 +45,7 @@ function Train:loadData(data, batchSize)
 end
 
 function Train:createBatches(batchSize)
-   local ii = i
+   local ii = 1
    local batch = 1
    local batchSize = batchSize or 1000
    local batches = {}
@@ -54,13 +54,12 @@ function Train:createBatches(batchSize)
       
       if type(batches[batch]) == nil then
          batches[batch] = {}
+         print("Creating batch: "..batch)
       end
       
-      local data = self.data[i]
-      
-      batches[batch][ii] = data
+      batches[batch][ii] = self.data[i]
                
-      if (i % batchSize == 0) then
+      if (ii == batchSize) then
          batch = batch + 1
          ii = 0
          print("Batch: "..batch)
