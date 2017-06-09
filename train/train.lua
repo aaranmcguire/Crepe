@@ -135,9 +135,9 @@ function Train:run()
           _input = input:view(1,input:size(1),input:size(2))
       end
       
-      print(_input:view(_input:size(1),1,_input:size(2),_input:size(3)))
+      print((_input:view(_input:size(1),1,_input:size(2),_input:size(3))):size(4))
       
-      trainer:train(trainset) -- TRAIN!!!
+      --trainer:train(trainset) -- TRAIN!!!
       
    end
    
