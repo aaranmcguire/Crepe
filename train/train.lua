@@ -102,6 +102,7 @@ function Train:run()
       print("Batch:"..batch)
       local trainset = self:loadBatch(batch)
       
+      print(trainset)
       
    end
    
