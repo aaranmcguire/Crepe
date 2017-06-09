@@ -8,7 +8,7 @@ function Train:__init(data, network)
    self.data = data;
    self.alphabet = data.alphabet;
    self.dict = data.dict;
-   self.batchSize = 100;
+   self.batchSize = 50;
    
    self.module = network:model();
    self.criterion = network:loss();
@@ -82,7 +82,22 @@ function Train:loadBatch(num)
       
    end
    
-   return {["data"] = data, ["label"] = label}
+   local dataset = {["data"] = data, ["label"] = label}
+   
+   setmetatable(dataset, {
+      __index = function(t, i) 
+         return {
+            t.data[i],
+            t.label[i]
+         } 
+      end
+   });
+
+   function dataset:size() 
+      return self.data:size(1) 
+   end
+   
+   return dataset
 end
    
 function Train:stringToTensor(data, length, tensor)
@@ -102,11 +117,8 @@ function Train:run()
       print("Batch:"..batch)
       local trainset = self:loadBatch(batch)
       
-      print(trainset.data)
-      print(trainset.label)
-      
-      trainset.data:cuda()
-      trainset.label:cuda()
+      trainset.data = trainset.data:cuda()
+      trainset.label = trainset.label:cuda()
       
    end
    
