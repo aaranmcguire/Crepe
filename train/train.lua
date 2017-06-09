@@ -30,15 +30,13 @@ function Train:formatData(data)
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         formatedData[i] = (formatedData, (
-            ffi.string(
+         formatedData[i] = ffi.string(
                torch.data(
                   data.data.content:narrow(
                      1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
                   )
                )
             ):lower()
-         ));
          
          --formatedData[label][i] = class;
          i = i + 1;
