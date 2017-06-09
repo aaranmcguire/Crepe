@@ -16,9 +16,13 @@ function Train:__init(data, network)
    self.module = self.module:cuda();
    self.criterion = self.criterion:cuda();
    
-   self.data = self:loadData(data)
+   --self.data = self:loadData(data)
    
-   self.batches = self:createBatches()
+   --self.batches = self:createBatches()
+   
+   print(torch.Tensor(1000, 69, 1014))
+   print(torch.Tensor(1000, 69, 1014):size(1))
+   
    
    print("Ready to train...")
 end
