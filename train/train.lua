@@ -66,7 +66,8 @@ function Train:createBatches(batchSize)
 end
 
 function Train:loadBatch(num)
-   local data = {}, label = {}
+   local data = {}
+   local label = {}
    
    for i = 1, #self.batches[num] do
       
