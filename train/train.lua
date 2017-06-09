@@ -95,5 +95,12 @@ end
 
 function Train:run()
    
+   for batch = 1, #self.batches do
+      print("Batch:"..batch)
+      local dataset = self:loadBatch(batch)
+      
+      
+      
+   end
    
 end
