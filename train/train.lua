@@ -127,7 +127,7 @@ function Train:run()
       trainer.shuffleIndices = false
       
       
-      trainset[1][1]
+      print(trainset[1][1])
       
       --trainer:train(trainset) -- TRAIN!!!
       
