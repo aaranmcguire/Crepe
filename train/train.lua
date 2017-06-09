@@ -71,7 +71,7 @@ function Train:createBatches()
 end
 
 function Train:loadBatch(num)
-   local data = torch.Tensor(self.batchSize, #self.alphabet, length);
+   local data = torch.Tensor(self.batchSize, #self.alphabet, 1014);
    data:zero();
    local label = torch.Tensor(self.batchSize)
    
