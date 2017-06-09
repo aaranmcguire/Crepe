@@ -102,7 +102,11 @@ function Train:run()
       print("Batch:"..batch)
       local trainset = self:loadBatch(batch)
       
+      print(trainset.data)
+      print(trainset.label)
+      
       trainset.data:cuda()
+      trainset.label:cuda()
       
    end
    
