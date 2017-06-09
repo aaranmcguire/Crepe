@@ -8,7 +8,7 @@ function Train:__init(data, network)
    self.data = data;
    self.alphabet = data.alphabet;
    self.dict = data.dict;
-   self.batchSize = 500;
+   self.batchSize = 1000;
    
    self.module = network:model();
    self.criterion = network:loss();
@@ -119,6 +119,8 @@ function Train:run()
       
       trainset.data = trainset.data:cuda()
       trainset.label = trainset.label:cuda()
+      
+      print(trainset:size())
       
    end
    
