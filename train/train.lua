@@ -52,9 +52,10 @@ function Train:loadData(data, batchSize)
 
 end
 
-function Train:GetBatch(length)
+function Train:LoadBatch(num)
 
-
+end
+   
 function Train:stringToTensor(data, length)
    
    local tensor = torch.Tensor(#self.data.alphabet, length);
