@@ -23,8 +23,8 @@ end
 function Train:formatData(data)
    local i = 1;
    local formatedData = tds.Hash()
-   local formatedData['data'] = tds.Hash()
-   local formatedData['label'] = tds.Hash()
+   formatedData['data'] = tds.Hash()
+   formatedData['label'] = tds.Hash()
    
    for class = 1, #data.data.index do
       print('Class #:'..class);
