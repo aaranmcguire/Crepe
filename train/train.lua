@@ -6,6 +6,9 @@ local Train = torch.class("Train")
 function Train:__init(data, network)
    -- Set vars
    self.data = data;
+   self.alphabet = data.alphabet;
+   self.dict = data.dict;
+   
    self.module = network:model();
    self.criterion = network:loss();
 
@@ -81,12 +84,12 @@ end
    
 function Train:stringToTensor(data, length)
    
-   local tensor = torch.Tensor(#self.data.alphabet, length);
+   local tensor = torch.Tensor(#self.alphabet, length);
    tensor:zero();
    for i = #data, math.max(#data - length + 1, 1), -1 do
       
-      if self.data.dict[data:sub(i,i)] then
-         tensor[self.data.dict[data:sub(i,i)]][#data - i + 1] = 1;
+      if self.dict[data:sub(i,i)] then
+         tensor[self.dict[data:sub(i,i)]][#data - i + 1] = 1;
       end
    end
    
