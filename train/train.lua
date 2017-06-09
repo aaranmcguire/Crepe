@@ -57,6 +57,8 @@ function Train:createBatches(batchSize)
          print("Creating batch: "..batch)
       end
       
+      table.insert(batches[batch], self.data[i])
+      
       --batches[batch][ii] = self.data[i]
                
       if (ii == batchSize) then
