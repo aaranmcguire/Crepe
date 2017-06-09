@@ -52,6 +52,10 @@ function Train:createBatches(batchSize)
    
    for i = 1, #self.data do
       
+      if type(batches[batch]) == nil then
+         batches[batch] = {}
+      end
+      
       batches[batch][ii] = self.data[i]
                
       if (i % batchSize == 0) then
