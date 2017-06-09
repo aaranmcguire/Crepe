@@ -38,9 +38,9 @@ function Train:formatData(data)
             )
          ):lower()
          
-         formatedData[data][i] = self:stringToTensor(string, #string)
+         formatedData['data'][i] = self:stringToTensor(string, #string)
          
-         formatedData[label][i] = class;
+         formatedData['label'][i] = class;
          i = i + 1;
       end
       collectgarbage()
