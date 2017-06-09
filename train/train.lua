@@ -17,9 +17,6 @@ function Train:__init(data, network)
    
    self.batches = self:createBatches()
    
-   print("1: "..#self.batches)
-   print("2: "..#self.batches[5])
-   
    print("Ready to train...")
 end
 
@@ -69,7 +66,16 @@ function Train:createBatches(batchSize)
 end
 
 function Train:loadBatch(num)
-
+   local data = {}, label = {}
+   
+   for i = 1, #self.batches[num] do
+      
+      data[i] = self.batches[num][i]["data"];
+      label[i] = self.batches[num][i]["label"];
+      
+   end
+   
+   return {["data"] = data, ["label"] = label}
 end
    
 function Train:stringToTensor(data, length)
