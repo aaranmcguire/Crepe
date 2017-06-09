@@ -8,42 +8,42 @@ function Train:__init(data, network)
    self.data = data;
    self.module = network:model();
    self.criterion = network:loss();
-   self.dataset = self:formatData(data);
 
    -- Load Network into GPU
    self.module = self.module:cuda();
    self.criterion = self.criterion:cuda();
    
-   --self.dataset.data = self.dataset.data:cuda();
-   --self.dataset.label = self.dataset.label:cuda();
+   self:loadData(data)
    
    print("Ready to train...")
 end
 
-function Train:formatData(data)
+function Train:loadData(data, batchSize)
    local i = 1;
-   local formatedData = tds.Hash()
-   formatedData['data'] = tds.Hash()
-   formatedData['label'] = tds.Hash()
-   
+   local batch = 1;
+   local formatedData = {}
+
    for class = 1, #data.data.index do
       print('Class #:'..class);
       print('# of data in class: '..data.data.index[class]:size(1));
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         local string = ffi.string(
+         table.insert(formatedData.batch['data'], ffi.string(
             torch.data(
                data.data.content:narrow(
                   1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
                )
             )
-         ):lower()
+         ):lower())
          
-         formatedData['data'][i] = self:stringToTensor(string, #string)
-         
-         formatedData['label'][i] = class;
+         table.insert(formatedData.batch['label'], class);
          i = i + 1;
+         
+         if (i % batchSize == 0) then
+            batch = batch + 1
+         end
+
       end
       collectgarbage()
    end
@@ -51,6 +51,8 @@ function Train:formatData(data)
    return formatedData
 
 end
+
+function Train:GetBatch(length)
 
 
 function Train:stringToTensor(data, length)
