@@ -124,6 +124,8 @@ function Train:run()
       trainer.learningRate = 0.001
       trainer.maxIteration = 5 -- just do 5 epochs of training.
       
+      trainer:train(trainset) -- TRAIN!!!
+      
    end
    
 end
