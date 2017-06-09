@@ -56,7 +56,9 @@ function Train:createBatches(batchSize)
          batches[batch] = {}
       end
       
-      batches[batch][ii] = self.data[i]
+      local data = self.data[i]
+      
+      batches[batch][ii] = data
                
       if (i % batchSize == 0) then
          batch = batch + 1
