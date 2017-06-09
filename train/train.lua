@@ -124,8 +124,12 @@ function Train:run()
       trainer = nn.StochasticGradient(self.module, self.criterion)
       trainer.learningRate = 0.001
       trainer.maxIteration = 5 -- just do 5 epochs of training.
+      trainer.shuffleIndices = false
       
-      trainer:train(trainset) -- TRAIN!!!
+      
+      trainset[1][1]
+      
+      --trainer:train(trainset) -- TRAIN!!!
       
    end
    
