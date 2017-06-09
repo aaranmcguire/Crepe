@@ -45,7 +45,6 @@ function Train:loadData(data, batchSize)
 end
 
 function Train:createBatches(batchSize)
-   local ii = 1
    local batch = 1
    local batchSize = batchSize or 1000
    local batches = {}
@@ -58,16 +57,11 @@ function Train:createBatches(batchSize)
       end
       
       table.insert(batches[batch], self.data[i])
-      
-      --batches[batch][ii] = self.data[i]
                
-      if (ii == batchSize) then
+      if (i % batchSize == 0) then
          batch = batch + 1
-         ii = 0
          print("Batch: "..batch)
       end
-      
-      ii = ii + 1
    end
    
    return batches
