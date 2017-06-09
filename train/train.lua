@@ -30,13 +30,15 @@ function Train:formatData(data)
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         formatedData[i] = ffi.string(
-               torch.data(
-                  data.data.content:narrow(
-                     1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
-                  )
+         local string = ffi.string(
+            torch.data(
+               data.data.content:narrow(
+                  1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
                )
-            ):lower()
+            )
+         ):lower()
+         
+         fomatedData[data][i] = self:StringtoTensor(string, #string)
          
          --formatedData[label][i] = class;
          i = i + 1;
@@ -49,7 +51,7 @@ function Train:formatData(data)
 end
 
 
-function Train:toTensor(data, length)
+function Train:StringtoTensor(data, length)
    
    local tensor = torch.Tensor(#self.data.alphabet, length);
    tensor:zero();
