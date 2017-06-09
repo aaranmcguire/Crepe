@@ -29,15 +29,22 @@ function Train:loadData(data, batchSize)
       
       for dataID = 1, data.data.index[class]:size(1) do
        
-         table.insert(formatedData[batch]['data'], ffi.string(
-            torch.data(
-               data.data.content:narrow(
-                  1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
+         local data = {
+            'data' = ffi.string(
+               torch.data(
+                  data.data.content:narrow(
+                     1, data.data.index[class][dataID][( data.data.index[class][dataID]:size(1) )], 1
+                  )
                )
-            )
-         ):lower())
+            ):lower(),
+            
+            'label' = class
+         }
          
-         table.insert(formatedData[batch]['label'], class);
+         
+         table.insert(formatedData[batch], data)
+         
+         --table.insert(formatedData[batch]['label'], class);
          i = i + 1;
          
          if (i % batchSize == 0) then
