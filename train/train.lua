@@ -77,7 +77,7 @@ function Train:loadBatch(num)
    
    for i = 1, #self.batches[num] do
       
-      data[i] = self:stringToTensor(self.batches[num][i]["data"], self.lenth, data:select(1, i)):transpose(2, 3):contiguous();
+      data[i] = (self:stringToTensor(self.batches[num][i]["data"], self.lenth, data:select(1, i))):transpose(2, 3):contiguous();
       label[i] = self.batches[num][i]["label"];
       
    end
