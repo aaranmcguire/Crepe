@@ -20,8 +20,8 @@ function Train:__init(data, network)
    
    --self.batches = self:createBatches()
    
-   print(torch.Tensor(1000, 69, 1014))
-   print(torch.Tensor(1000, 69, 1014):size(1))
+   print(torch.Tensor(100, 69, 1014))
+   print(torch.Tensor(100, 69, 1014):size(1))
    
    
    print("Ready to train...")
