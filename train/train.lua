@@ -100,9 +100,15 @@ function Train:run()
    
    for batch = 1, #self.batches do
       print("Batch:"..batch)
-      local dataset = self:loadBatch(batch)
+      local trainset = self:loadBatch(batch)
       
-      dataset = dataset:cuda()
+      setmetatable(trainset, {
+         __index = function(t, i) 
+            return {t.data[i], t.label[i]} 
+         end
+      });
+      
+      trainset.data = trainset.data:double()
       
    end
    
