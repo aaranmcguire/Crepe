@@ -8,7 +8,7 @@ function Train:__init(data, network)
    self.data = data;
    self.alphabet = data.alphabet;
    self.dict = data.dict;
-   self.batchSize = 5000;
+   self.batchSize = 2000;
    
    self.module = network:model();
    self.criterion = network:loss();
