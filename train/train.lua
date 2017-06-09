@@ -120,7 +120,7 @@ function Train:run()
       trainset.data = trainset.data:cuda()
       trainset.label = trainset.label:cuda()
       
-      trainer = nn.StochasticGradient(net, criterion)
+      trainer = nn.StochasticGradient(self.module, self.criterion)
       trainer.learningRate = 0.001
       trainer.maxIteration = 5 -- just do 5 epochs of training.
       
