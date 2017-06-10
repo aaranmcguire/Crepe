@@ -1,5 +1,4 @@
 local ffi = require("ffi")
-local tds = require ("tds")
 
 local Train = torch.class("Train")
 
@@ -128,7 +127,7 @@ function Train:run()
       trainset.label = trainset.label:cuda()
       
       trainer:train(trainset)
-      
+      collectgarbage()
    end
    
 end
