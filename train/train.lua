@@ -72,7 +72,6 @@ function Train:createBatches()
 end
 
 function Train:loadBatch(num)
-   --local data = torch.Tensor(self.batchSize, #self.alphabet, self.lenth);
    local data = torch.Tensor(self.batchSize, self.lenth, #self.alphabet);
    local label = torch.Tensor(self.batchSize)
    
@@ -114,21 +113,12 @@ function Train:stringToTensor(data, length, tensor)
    return tensor
 end
 
- -- Old version
-
---function Train:stringToTensor(data, length, tensor)
---   tensor:zero();
---   for i = #data, math.max(#data - length + 1, 1), -1 do
---      if self.dict[data:sub(i,i)] then
---         tensor[self.dict[data:sub(i,i)]][#data - i + 1] = 1;
---      end
---   end
---   
---   return tensor
---end
-
-
 function Train:run()
+   
+   trainer = nn.StochasticGradient(self.module, self.criterion)
+   trainer.learningRate = 0.001
+   trainer.maxIteration = 5 -- just do 5 epochs of training.
+   trainer.shuffleIndices = false
    
    for batch = 1, #self.batches do
       print("Batch:"..batch)
@@ -137,28 +127,7 @@ function Train:run()
       trainset.data = trainset.data:cuda()
       trainset.label = trainset.label:cuda()
       
-      trainer = nn.StochasticGradient(self.module, self.criterion)
-      trainer.learningRate = 0.001
-      trainer.maxIteration = 5 -- just do 5 epochs of training.
-      trainer.shuffleIndices = false
-      
-      ----
-      
-     --[[ 
-      local input = trainset[1][1]
-      local _input = input
-      if input:dim()==2 then
-          _input = input:view(1,input:size(1),input:size(2))
-      end
-      
-      local data = _input:view(_input:size(1),1,_input:size(2),_input:size(3))
-      local size = data:size(4)
-      
-      print(data)
-      print("Size: "..size)
-      --]]
-      
-      trainer:train(trainset) -- TRAIN!!!
+      trainer:train(trainset)
       
    end
    
