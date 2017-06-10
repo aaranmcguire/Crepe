@@ -73,8 +73,8 @@ function main.run()
    for i = 1,config.main.eras do
       
       print("Training for era "..i)
-      main.train:run(config.main.epoches)
-
+      main.train:run()
+      main.save(self.model, i)
       --if config.main.test == true then
 	-- print("Disabling dropouts")
 	-- print("Testing on test data for era "..i)
@@ -88,7 +88,7 @@ function main.run()
 end
 
 -- Save a record
-function main.save()
+function main.save(model, epoch)
    -- Record necessary configurations
    config.train.epoch = main.train.epoch
 
@@ -96,14 +96,14 @@ function main.save()
     local filename
     local modelObjectToSave
     
-    if main.model.sequential.clearState then
+    if model.clearState then
         -- save the full model
-        filename = paths.concat(config.main.save, '_' .. (main.train.epoch-1) .. '_Model.t7')
-        modelObjectToSave = main.model.sequential:clearState()
+        filename = paths.concat(config.main.save, '_'..epoch..'_Model.t7')
+        modelObjectToSave = model:clearState()
     else
         -- this version of Torch doesn't support clearing the model state => save only the weights
-        local Weights,Gradients = main.model.sequential:getParameters()
-        filename = paths.concat(config.main.save, '_' .. (main.train.epoch-1) .. '_Weights.t7')
+        local Weights,Gradients = model:getParameters()
+        filename = paths.concat(config.main.save, '_'..epoch..'_Weights.t7')
         modelObjectToSave = Weights
     end
     print('Snapshotting to ' .. filename)
