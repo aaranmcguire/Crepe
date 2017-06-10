@@ -7,7 +7,7 @@ function Train:__init(data, network)
    self.data = data;
    self.alphabet = data.alphabet;
    self.dict = data.dict;
-   self.batchSize = 10000;
+   self.batchSize = 5000;
    self.lenth = 1024
    
    self.module = network:model();
@@ -116,7 +116,7 @@ function Train:run()
    
    trainer = nn.StochasticGradient(self.module, self.criterion)
    trainer.learningRate = 0.001
-   trainer.maxIteration = 15 -- just do 5 epochs of training.
+   trainer.maxIteration = 50 -- just do 5 epochs of training.
    trainer.shuffleIndices = false
    
    for batch = 1, #self.batches do
