@@ -127,6 +127,13 @@ function Train:run()
       trainset.label = trainset.label:cuda()
       
       trainer:train(trainset)
+      
+      if batch % 10 then
+         filename = paths.concat('/data', 'Train_B'..batch..'_Model.t7')
+         torch.save(filename, self.module:clearState())
+         print("Saving batch "..batch)
+      end
+      
       collectgarbage()
    end
    
