@@ -37,10 +37,9 @@ function Train.main()
 	for i = 1, #train_data do	
 		print( "Prediction: " )
 		
-		local input = data:stringToTensor(train_data[i]["data"], 1024, tensor)
-		print(input:size())
+		local input = data:stringToTensor(train_data[i]["data"], 1024, tensor):double()
 		
-		--local output = module:forward(input)
+		local output = module:forward(input)
 		print( "Fact: "..train_data[i]["label"] )
 		print( "---" )
 	end
