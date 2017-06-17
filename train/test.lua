@@ -35,8 +35,8 @@ function Train.main()
 	for i = 1, #train_data do	
 		print( "Prediction: " )
 		
-		local output = module:forward(train_data[i]["data"])
-		
+		--local output = module:forward(train_data[i]["data"])
+		print("Type: "..type(train_data[i]["data"]))
 		print( "Fact: "..train_data[i]["label"] )
 		print( "---" )
 	end
