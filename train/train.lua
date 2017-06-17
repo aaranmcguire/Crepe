@@ -30,7 +30,7 @@ function Train:run()
    
    print("Number of batches:"..#self.batches)
    
-   for batch = 1, #self.batches do
+   for batch = 1, #self.data.batches do
       print("Batch:"..batch)
       local trainset = self.data:loadBatch(batch)
       
