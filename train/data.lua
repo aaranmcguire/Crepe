@@ -1,8 +1,3 @@
---[[
-Data Program for Crepe
-By Xiang Zhang @ New York University
---]]
-
 require("image")
 local ffi = require("ffi")
 
