@@ -14,7 +14,6 @@ require("cudnn")
 require("data")
 require("network")
 require("train")
-require("test")
 
 -- Configurations
 dofile("config.lua")
@@ -43,11 +42,6 @@ end
 
 -- Train a new experiment
 function main.new()
-   -- Load the data
-   print("Loading datasets...")
-   main.train_data = Data(config.train_data)
-   main.val_data = Data(config.val_data)
-
    -- Load the model
    print("Loading the model...")
    
@@ -55,14 +49,10 @@ function main.new()
    local model = Network:model()
    print(model:__tostring())
 
-   
    -- Initiate the trainer
    print("Loading the trainer...")
+   main.train_data = Data(config.train_data)
    main.train = Train(main.train_data, Network)
-
-   -- Initiate the tester
-   --print("Loading the tester...")
-   --main.test_val = Test(main.val_data, main.model, config.loss(), config.test)
 
    collectgarbage()
 end
@@ -74,44 +64,10 @@ function main.run()
       
       print("Training for era "..i)
       main.train:run()
-      main.save(self.model, i)
-      --if config.main.test == true then
-	-- print("Disabling dropouts")
-	-- print("Testing on test data for era "..i)
-	-- main.test_val:run(main.testlog)
-      --end
-
-      --print("Saving data")
-      --main.save()
       collectgarbage()
    end
 end
 
--- Save a record
-function main.save(model, epoch)
-   -- Record necessary configurations
-   config.train.epoch = main.train.epoch
-
-   -- Make the save
-    local filename
-    local modelObjectToSave
-    
-    if model.clearState then
-        -- save the full model
-        filename = paths.concat(config.main.save, '_'..epoch..'_Model.t7')
-        modelObjectToSave = model:clearState()
-    else
-        -- this version of Torch doesn't support clearing the model state => save only the weights
-        local Weights,Gradients = model:getParameters()
-        filename = paths.concat(config.main.save, '_'..epoch..'_Weights.t7')
-        modelObjectToSave = Weights
-    end
-    print('Snapshotting to ' .. filename)
-    torch.save(filename, modelObjectToSave)
-    print('Snapshot saved - ' .. filename)
-   
-   collectgarbage()
-end
 
 -- Utility function: find files with the specific 'ls' pattern
 function main.findFiles(pattern)
