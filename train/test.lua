@@ -32,6 +32,8 @@ function Train.main()
 	data = Data(config.val_data)
 	
 	print("Testing..")
+	local correct = 0
+	local TotalDatasetSize = 0
 	for batch = 1, #data.batches do
            print("Batch:"..batch)
            local trainset = data:loadBatch(batch)
@@ -39,7 +41,8 @@ function Train.main()
            trainset.data = trainset.data:cuda()
            trainset.label = trainset.label:cuda()
            
-	   local correct = 1
+	   TotalDatasetSize = TotalDatasetSize + trainset:size()
+		
            for t = 1,trainset:size() do
 		local prediction = module:forward(trainset.data[t])
 		local confidences, indices = torch.sort(prediction, true)
@@ -51,13 +54,10 @@ function Train.main()
 		end
 			
 	   end
-      
-	   print("Accuracy: "..correct.."/"..trainset:size().."("..(100*correct)/trainset:size()..")")
 		
            collectgarbage()
         end
-	
-	--print(module:forward(input))
+	print("Final Accuracy: "..correct.."/"..TotalDatasetSize.."("..(100*correct)/TotalDatasetSize..")")
 end
 
 -- Execute the main program
