@@ -35,7 +35,7 @@ function Train.main()
 	for i = 1, #train_data do	
 		print( "Prediction: " )
 		
-		local input = data:stringToTensor(train_data[i]["data"], 1024, torch.Tensor(1, 1024, #data.alphabet))
+		local input = data:stringToTensor(train_data[i]["data"], 1024, torch.Tensor(1, 1024, 69))
 		local output = module:forward(input)
 		print( "Fact: "..train_data[i]["label"] )
 		print( "---" )
