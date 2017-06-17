@@ -30,13 +30,11 @@ function Train.main()
 	
 	print("Loading Test Data...")
 	data = Data(config.val_data)
-	train_data = data.data
-	tensor = torch.Tensor(1024, 69);
 	
 	print("Testing..")
-	for batch = 1, #self.data.batches do
+	for batch = 1, #data.batches do
            print("Batch:"..batch)
-           local trainset = self.data:loadBatch(batch)
+           local trainset = data:loadBatch(batch)
       
            trainset.data = trainset.data:cuda()
            trainset.label = trainset.label:cuda()
@@ -49,8 +47,8 @@ function Train.main()
 			
 	   end
       
-      collectgarbage()
-   end
+           collectgarbage()
+        end
 	
 	--print(module:forward(input))
 end
