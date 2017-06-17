@@ -5,11 +5,7 @@ local Train = torch.class("Train")
 function Train:__init(data, network)
    -- Set vars
    self.data = data;
-   self.alphabet = data.alphabet;
-   self.dict = data.dict;
-   self.batchSize = 5000;
-   self.lenth = 1024
-   
+
    self.module = network:model();
    self.criterion = network:loss();
 
