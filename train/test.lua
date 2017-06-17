@@ -26,3 +26,6 @@ function Train.main()
 	
 	--print(module:forward(input))
 end
+
+-- Execute the main program
+Train.main()
