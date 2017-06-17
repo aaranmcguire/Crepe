@@ -1,10 +1,3 @@
---[[
-Configuration for Crepe Training Program
-By Xiang Zhang @ New York University
---]]
-
-require("nn")
-
 -- The namespace
 config = {}
 
@@ -14,38 +7,14 @@ local alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:\'"/\\|_@#$%^&*~`+-
 config.train_data = {}
 config.train_data.file = "/data/train.t7b"
 config.train_data.alphabet = alphabet
-config.train_data.length = 1014
-config.train_data.batch_size = 1
+config.train_data.length = 1024
 
 -- Validation data
 config.val_data = {}
 config.val_data.file = "/data/test.t7b"
 config.val_data.alphabet = alphabet
-config.val_data.length = 1014
-config.val_data.batch_size = 1
-
-
--- The trainer
-config.train = {}
-local baseRate = 1e-2 * math.sqrt(config.train_data.batch_size) / math.sqrt(128)
-config.train.rates = {[1] = baseRate/1,[15001] = baseRate/2,[30001] = baseRate/4,[45001] = baseRate/8,[60001] = baseRate/16,[75001] = baseRate/32,[90001]= baseRate/64,[105001] = baseRate/128,[120001] = baseRate/256,[135001] = baseRate/512,[150001] = baseRate/1024}
-config.train.momentum = 0.9
-config.train.decay = 1e-5
-
--- The tester
-config.test = {}
-config.test.confusion = true
+config.val_data.length = 1024
 
 -- Main program
 config.main = {}
-config.main.type = "torch.CudaTensor"
-config.main.eras = 20
-config.main.epoches = 5000
-config.main.randomize = 5e-2
-config.main.dropout = true
-config.main.save = "/data"
-config.main.details = true
 config.main.device = 1
-config.main.collectgarbage = 100
-config.main.logtime = 5
-config.main.test = true
