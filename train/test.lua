@@ -27,12 +27,12 @@ function Train.main()
 	print("Loading Test Data...")
 	train_data = Data(config.val_data).data
 	
-	Print("Testing.."
+	Print("Testing..")
 	for i = 1, #train_data do	
-		print("Prediction: ")
-		print(module:forward(train_data[i]["data"]))
-		print("Fact: "..train_data[i]["label"])
-		print("---")
+		print( "Prediction: " )
+		print( module:forward(train_data[i]["data"]) )
+		print( "Fact: "..train_data[i]["label"] )
+		print( "---" )
 	end
 	
 	--print(module:forward(input))
