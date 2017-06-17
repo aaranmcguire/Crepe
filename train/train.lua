@@ -28,7 +28,7 @@ function Train:run()
    trainer.maxIteration = 50 -- just do 5 epochs of training.
    trainer.shuffleIndices = false
    
-   print("Number of batches:"..#self.batches)
+   print("Number of batches:"..#self.data.batches)
    
    for batch = 1, #self.data.batches do
       print("Batch:"..batch)
