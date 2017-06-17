@@ -23,7 +23,7 @@ function Data:__init(config)
    self.config = config
    self.data = torch.load(self.file)
 	
-   self.data = data:loadData()
+   self.data = self:loadData()
    self.batches = self:createBatches()
 
 end
