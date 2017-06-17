@@ -1,8 +1,3 @@
---[[
-Main Driver for Crepe
-By Xiang Zhang @ New York University
-]]
-
 -- Necessary functionalities
 require("nn")
 require("torch")
@@ -28,11 +23,8 @@ main = {}
 -- The main program
 function main.main()
    -- Setting the device
-   if config.main.device then
-      cutorch.setDevice(config.main.device)
-      print("Device set to "..config.main.device)
-   end
-   
+   cutorch.setDevice(1)
+
    --cudnn.fastest = true
 
    main.new()
@@ -59,26 +51,9 @@ end
 
 -- Start the training
 function main.run()
-   --Run for this number of era
-   for i = 1,config.main.eras do
-      
-      print("Training for era "..i)
-      main.train:run()
-      collectgarbage()
-   end
-end
 
-
--- Utility function: find files with the specific 'ls' pattern
-function main.findFiles(pattern)
-   require("sys")
-   local cmd = "ls "..pattern
-   local str = sys.execute(cmd)
-   local files = {}
-   for file in str:gmatch("[^\n]+") do
-      files[#files+1] = file
-   end
-   return files
+   main.train:run()
+   collectgarbage()
 end
 
 -- Execute the main program
