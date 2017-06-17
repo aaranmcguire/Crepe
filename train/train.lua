@@ -119,6 +119,8 @@ function Train:run()
    trainer.maxIteration = 50 -- just do 5 epochs of training.
    trainer.shuffleIndices = false
    
+   print("Number of batches:"..#self.batches)
+   
    for batch = 1, #self.batches do
       print("Batch:"..batch)
       local trainset = self:loadBatch(batch)
