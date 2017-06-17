@@ -31,6 +31,7 @@ end
 
 function Data:loadData()
    local formatedData = {}
+   local rand = math.random
 
    for class = 1, #self.data.index do
       for dataID = 1, self.data.index[class]:size(1) do  
@@ -50,6 +51,11 @@ function Data:loadData()
       collectgarbage()
    end
 
+   for i = #formatedData, 2, -1 do
+        j = rand(i)
+        formatedData[i], formatedData[j] = formatedData[j], formatedData[i]
+    end
+	
    return formatedData
 end
 
