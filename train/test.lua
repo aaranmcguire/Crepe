@@ -19,9 +19,13 @@ Train = {}
 
 -- The Main Program
 function Train.main()
+	
+	cutorch.setDevice(1)
+	
 	print("Loading Module...")
 	
 	module = torch.load(paths.concat("/data/", "TestModel.t7"))
+	module = module:cuda()
 	module:evaluate()
 	
 	print("Loading Test Data...")
@@ -30,7 +34,9 @@ function Train.main()
 	print("Testing..")
 	for i = 1, #train_data do	
 		print( "Prediction: " )
-		print( module:forward(train_data[i]["data"]) )
+		
+		local output = module:forward(train_data[i]["data"])
+		
 		print( "Fact: "..train_data[i]["label"] )
 		print( "---" )
 	end
