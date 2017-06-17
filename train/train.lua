@@ -35,7 +35,7 @@ function Train:run()
       
       trainer:train(trainset)
       
-      if batch % 10 == 0 or batch == #self.batches then
+      if batch % 10 == 0 or batch == #self.data.batches then
          filename = paths.concat('/data', 'Train_B'..batch..'_Model.t7')
          torch.save(filename, self.module:clearState())
          print("Saving batch "..batch)
