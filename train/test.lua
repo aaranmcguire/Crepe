@@ -25,7 +25,15 @@ function Train.main()
 	module:evaluate()
 	
 	print("Loading Test Data...")
-	train_data = Data(config.val_data)
+	train_data = Data(config.val_data).data
+	
+	Print("Testing.."
+	for i = 1, #train_data do	
+		print("Prediction: ")
+		print(module:forward(train_data[i]["data"]))
+		print("Fact: "..train_data[i]["class"])
+		print("---")
+	end
 	
 	--print(module:forward(input))
 end
