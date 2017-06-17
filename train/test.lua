@@ -17,5 +17,12 @@ Train = {}
 
 -- The Main Program
 function Train.main()
+	print("testing...")
 	
+	module = torch.load(paths.concat("/data/", "TestModel.t7"))
+	
+	module:evaluate()
+	
+	
+	--print(module:forward(input))
 end
