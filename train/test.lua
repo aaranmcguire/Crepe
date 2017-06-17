@@ -29,7 +29,8 @@ function Train.main()
 	module:evaluate()
 	
 	print("Loading Test Data...")
-	train_data = Data(config.val_data).data
+	data = Data(config.val_data)
+	train_data = data.data
 	
 	print("Testing..")
 	for i = 1, #train_data do	
