@@ -34,15 +34,23 @@ function Train.main()
 	tensor = torch.Tensor(1024, 69);
 	
 	print("Testing..")
-	for i = 1, #train_data do	
-		print( "Prediction: " )
-		
-		local input = data:stringToTensor(train_data[i]["data"], 1024, tensor):double()
-		
-		local output = module:forward(input)
-		print( "Fact: "..train_data[i]["label"] )
-		print( "---" )
-	end
+	for batch = 1, #self.data.batches do
+           print("Batch:"..batch)
+           local trainset = self.data:loadBatch(batch)
+      
+           trainset.data = trainset.data:cuda()
+           trainset.label = trainset.label:cuda()
+           
+           for t = 1,trainset:size() do
+		local prediction = module:forward(trainset.data[t])
+		local confidences, indices = torch.sort(prediction, true)
+		print("Prediction: "..indices[1])
+		print("Fact "..trainset.label[t])
+			
+	   end
+      
+      collectgarbage()
+   end
 	
 	--print(module:forward(input))
 end
