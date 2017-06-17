@@ -31,7 +31,7 @@ function Train.main()
 	for i = 1, #train_data do	
 		print("Prediction: ")
 		print(module:forward(train_data[i]["data"]))
-		print("Fact: "..train_data[i]["class"])
+		print("Fact: "..train_data[i]["label"])
 		print("---")
 	end
 	
