@@ -18,38 +18,102 @@ function Data:__init(config)
    end
 
    self.length = config.length or 1014
-   self.batch_size = config.batch_size or 128
    self.file = config.file
 
    self.config = config
    self.data = torch.load(self.file)
+	
+   self.data = data:loadData()
+   self.batches = self:createBatches()
 
 end
 
-function Data:nClasses()
-   return #self.data.index
-end
+function Data:loadData()
+   local formatedData = {}
 
-function Data:getBatch(inputs, labels, data)
-   local data = data or self.data
-   local inputs = inputs or torch.Tensor(self.batch_size, #self.alphabet, self.length)
-   local labels = labels or torch.Tensor(inputs:size(1))
-
-   for i = 1, inputs:size(1) do
-      local label, s
-      -- Choose data
-      label = torch.random(#data.index)
-      local input = torch.random(data.index[label]:size(1))
-      s = ffi.string(torch.data(data.content:narrow(1, data.index[label][input][data.index[label][input]:size(1)], 1)))
-      for l = data.index[label][input]:size(1) - 1, 1, -1 do
-	 s = s.." "..ffi.string(torch.data(data.content:narrow(1, data.index[label][input][l], 1)))
+   for class = 1, #self.data.index do
+      for dataID = 1, self.data.index[class]:size(1) do  
+         
+         table.insert(formatedData, {
+            ["data"] = ffi.string(
+               torch.data(
+                  self.data.content:narrow(
+                     1, self.data.index[class][dataID][( self.data.index[class][dataID]:size(1) )], 1
+                  )
+               )
+            ):lower(),
+               
+            ["label"] = class
+         });
       end
-      labels[i] = label
-      -- Quantize the string
-      self:stringToTensor(s, self.length, inputs:select(1, i))
+      collectgarbage()
    end
 
-   return inputs, labels
+   return formatedData
+end
+
+function Data:createBatches()
+   local batch = 1
+   local batchSize = self.batchSize or 1000
+   local batches = {}
+   
+   for i = 1, #self.data do
+      
+      if type(batches[batch]) ~= 'table' then
+         batches[batch] = {}
+      end
+      
+      table.insert(batches[batch], self.data[i])
+               
+      if (i % batchSize == 0) then
+         batch = batch + 1
+      end
+   end
+   
+   return batches
+end
+
+
+function Data:loadBatch(num)
+   local data = torch.Tensor(self.batchSize, self.lenth, #self.alphabet);
+   local label = torch.Tensor(self.batchSize)
+   
+   for i = 1, #self.batches[num] do
+      
+      data[i] = self:stringToTensor(self.batches[num][i]["data"], self.lenth, data:select(1, i))
+      label[i] = self.batches[num][i]["label"];
+      
+   end
+   
+   local dataset = {["data"] = data, ["label"] = label}
+   
+   dataset.data:double()
+   
+   setmetatable(dataset, {
+      __index = function(t, i) 
+         return {
+            t.data[i],
+            t.label[i]
+         } 
+      end
+   });
+
+   function dataset:size() 
+      return self.data:size(1) 
+   end
+   
+   return dataset
+end
+
+function Data:stringToTensor(data, length, tensor)
+   tensor:zero();
+   for i = #data, math.max(#data - length + 1, 1), -1 do
+      if self.dict[data:sub(i,i)] then
+         tensor[#data - i + 1][self.dict[data:sub(i,i)]] = 1;
+      end
+   end
+   
+   return tensor
 end
 
 return Data
