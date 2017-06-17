@@ -17,7 +17,8 @@ function Data:__init(config)
       self.dict[self.alphabet:sub(i,i)] = i
    end
 
-   self.length = config.length or 1014
+   self.lenth = 1024;
+   self.batchSize = 5000;
    self.file = config.file
 
    self.config = config
