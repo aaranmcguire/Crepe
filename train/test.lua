@@ -38,7 +38,9 @@ function Train.main()
 		print( "Prediction: " )
 		
 		local input = data:stringToTensor(train_data[i]["data"], 1024, tensor)
-		local output = module:forward(input)
+		print(input:size())
+		
+		--local output = module:forward(input)
 		print( "Fact: "..train_data[i]["label"] )
 		print( "---" )
 	end
