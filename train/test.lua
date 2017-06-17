@@ -10,6 +10,8 @@ require("cudnn")
 require("data")
 require("network")
 
+-- Configurations
+dofile("config.lua")
 
 -- Create Namespace
 Train = {}
@@ -17,12 +19,13 @@ Train = {}
 
 -- The Main Program
 function Train.main()
-	print("testing...")
+	print("Loading Module...")
 	
 	module = torch.load(paths.concat("/data/", "TestModel.t7"))
-	
 	module:evaluate()
 	
+	print("Loading Test Data...")
+	train_data = Data(config.val_data)
 	
 	--print(module:forward(input))
 end
