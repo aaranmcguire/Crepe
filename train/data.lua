@@ -56,7 +56,6 @@ end
 
 function Data:createBatches()
    local batch = 1
-   local batchSize = self.batchSize or 1000
    local batches = {}
    
    for i = 1, #self.data do
@@ -67,7 +66,7 @@ function Data:createBatches()
       
       table.insert(batches[batch], self.data[i])
                
-      if (i % batchSize == 0) then
+      if (i % self.batchSize == 0) then
          batch = batch + 1
       end
    end
@@ -77,8 +76,8 @@ end
 
 
 function Data:loadBatch(num)
-   local data = torch.Tensor(self.batchSize, self.lenth, #self.alphabet);
-   local label = torch.Tensor(self.batchSize)
+   local data = torch.Tensor(#self.batches[num], self.lenth, #self.alphabet);
+   local label = torch.Tensor(#self.batches[num])
    
    for i = 1, #self.batches[num] do
       
