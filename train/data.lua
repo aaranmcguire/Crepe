@@ -13,7 +13,7 @@ function Data:__init(config)
    end
 
    self.lenth = 1024;
-   self.batchSize = 6000;
+   self.batchSize = 7000;
    self.file = config.file
 
    self.config = config
