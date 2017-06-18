@@ -29,7 +29,7 @@ function Data:loadData()
    local rand = math.random
 
    for class = 1, #self.data.index do
-      for dataID = 1, self.data.index[class]:size(1) do  
+      for dataID = 1, 1000 do  --self.data.index[class]:size(1)
          
          table.insert(formatedData, {
             ["data"] = ffi.string(
