@@ -55,7 +55,7 @@ function Network:model()
   net:add(nn.Dropout(0.5))
   
   -- 1024
-  net:add(nn.Linear(1024, 14))
+  net:add(nn.Linear(1024, 2))
   net:add(cudnn.LogSoftMax())
 
   -- weight initialization
