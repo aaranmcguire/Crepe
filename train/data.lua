@@ -19,6 +19,10 @@ function Data:__init(config)
    self.config = config
    self.data = torch.load(self.file)
 	
+   if config.limitDataSetSize then
+      self.limitDataSetSize = config.limitDataSetSize
+   end
+	
    self.data = self:loadData()
    self.batches = self:createBatches()
 
@@ -29,7 +33,7 @@ function Data:loadData()
    local rand = math.random
 
    for class = 1, 2 do
-      for dataID = 1, 1000 do  --self.data.index[class]:size(1)
+      for dataID = 1, (self.limitDataSetSize or self.data.index[class]:size(1)) do  --self.data.index[class]:size(1)
          
          table.insert(formatedData, {
             ["data"] = ffi.string(
