@@ -28,7 +28,7 @@ function Data:loadData()
    local formatedData = {}
    local rand = math.random
 
-   for class = 1, #self.data.index do
+   for class = 1, 2 do
       for dataID = 1, 1000 do  --self.data.index[class]:size(1)
          
          table.insert(formatedData, {
