@@ -8,7 +8,7 @@ config.train_data = {}
 config.train_data.file = "/data/train.t7b"
 config.train_data.alphabet = alphabet
 config.train_data.length = 1024
-config.train_data.limitDataSetSize = 500
+config.train_data.limitDataSetSize = 200
 
 -- Validation data
 config.val_data = {}
