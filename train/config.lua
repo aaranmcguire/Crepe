@@ -12,9 +12,9 @@ config.train_data.length = 6634
 
 -- Validation data
 config.val_data = {}
-config.val_data.file = "/data/test.t7b"
+config.val_data.file = "/data/realDB.t7b"
 config.val_data.alphabet = alphabet
-config.val_data.length = 1024
+config.val_data.length = 6634
 
 -- Main program
 config.main = {}
