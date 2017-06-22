@@ -5,10 +5,10 @@ local alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:\'"/\\|_@#$%^&*~`+-
 
 -- Training data
 config.train_data = {}
-config.train_data.file = "/data/train.t7b"
+config.train_data.file = "/data/realDB.t7b"
 config.train_data.alphabet = alphabet
-config.train_data.length = 1024
-config.train_data.limitDataSetSize = 200
+config.train_data.length = 6634
+--config.train_data.limitDataSetSize = 200
 
 -- Validation data
 config.val_data = {}
