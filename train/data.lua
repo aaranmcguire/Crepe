@@ -112,7 +112,7 @@ end
 
 function Data:stringToTensor(data, length, tensor)
    tensor:zero();
-   for i = 1, #tensor do
+   for i = 1, length do
       if self.dict[data:sub(i,i)] then
          tensor[i][self.dict[data:sub(i,i)]] = 1;
       end
