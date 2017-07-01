@@ -112,9 +112,9 @@ end
 
 function Data:stringToTensor(data, length, tensor)
    tensor:zero();
-   for i = #data, math.max(#data - length + 1, 1), -1 do
+   for i = 1, #data do
       if self.dict[data:sub(i,i)] then
-         tensor[#data - i + 1][self.dict[data:sub(i,i)]] = 1;
+         tensor[i][self.dict[data:sub(i,i)]] = 1;
       end
    end
    
