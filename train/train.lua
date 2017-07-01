@@ -21,7 +21,7 @@ function Train:run()
    
    trainer = nn.StochasticGradient(self.module, self.criterion)
    trainer.learningRate = 0.001
-   trainer.maxIteration = 100
+   trainer.maxIteration = 500
    trainer.shuffleIndices = false
    
    print("Number of batches:"..#self.data.batches)
